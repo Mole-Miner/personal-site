@@ -6,7 +6,7 @@ WORKDIR /usr/src/app/frontend
 
 COPY ./frontend .
 
-RUN npm install --unsafe-perm --legacy-peer-deps
+RUN npm install
 
 FROM node:18.16-alpine3.16 as backend
 
@@ -17,7 +17,7 @@ WORKDIR /usr/src/app/backend
 
 COPY ./backend .
 
-RUN npm install --unsafe-perm --legacy-peer-deps && \
+RUN npm install && \
     npm rebuild bcrypt --build-from-source && \
     apk del make gcc g++ python3
 

@@ -13,10 +13,9 @@ services:
       - /usr/src/app/frontend/node_modules
     ports:
       - "4200:4200"
-      - "4201:4201"
     depends_on:
       - backend
-    command: npx ng serve
+    command: npx ng serve --project ${NG_PROJECT} --host 0.0.0.0 --poll 200 --disable-host-check
     restart: on-failure
   # Server
   backend:
@@ -26,13 +25,13 @@ services:
       dockerfile: Dockerfile
       target: backend
     volumes:
-      - ./frontend:/usr/src/app/backend
+      - ./backend:/usr/src/app/backend
       - /usr/src/app/backend/node_modules
     ports:
       - "3000:3000"
     depends_on:
       - postgres
-    command: npm run prisma:generate && npm run start:dev
+    command: npm run start:dev
   # DB
   postgres:
     container_name: postgres
@@ -49,4 +48,5 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
-
+    ports:
+      - "8080:8080"
