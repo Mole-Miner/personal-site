@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  # Client
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    volumes:
+      - ./frontend:/usr/src/app/frontend
+      - /usr/src/app/frontend/node_modules
+    ports:
+      - "4200:4200"
+      - "4201:4201"
+    depends_on:
+      - backend
+    command: npx ng serve
+    restart: on-failure
+  # Server
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    volumes:
+      - ./frontend:/usr/src/app/backend
+      - /usr/src/app/backend/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    command: npm run prisma:generate && npm run start:dev
+  # DB
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: personal_site
+  # DB Dashboard
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
