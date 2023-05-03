@@ -23,15 +23,20 @@
     "migrate:reset": "npx prisma migrate reset",
     "migrate:deploy": "npx prisma migrate deploy",
     "prisma:format": "npx prisma format",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "db:pull": "npx prisma db pull",
+    "db:push": "npx prisma db push"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/jwt": "^10.0.3",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.13.0",
     "bcrypt": "^5.1.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

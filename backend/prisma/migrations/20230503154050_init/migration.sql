@@ -1,4 +1,4 @@
--- CreateExtensionUuidOssp
+-- CreateExtensionUuidOssp;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- CreateEnum
