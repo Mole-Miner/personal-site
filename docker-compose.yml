@@ -31,7 +31,7 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-    command: npm run start:dev
+    command: sh -c "npm run prisma:generate && npm run start:dev"
   # DB
   postgres:
     container_name: postgres
