@@ -28,6 +28,6 @@ model User {
 model Token {
   id      String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   refresh String
-  userId  String @unique @map("user_id")
+  userId  String @unique @map("user_id") @db.Uuid
   user    User   @relation(fields: [userId], references: [id])
 }
