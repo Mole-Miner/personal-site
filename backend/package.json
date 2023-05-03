@@ -25,14 +25,17 @@
     "prisma:format": "npx prisma format",
     "prisma:generate": "npx prisma generate",
     "db:pull": "npx prisma db pull",
-    "db:push": "npx prisma db push"
+    "db:push": "npx prisma db push",
+    "db:seed": "npx prisma db seed"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/platform-fastify": "^9.4.0",
     "@prisma/client": "^4.13.0",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
@@ -81,5 +84,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

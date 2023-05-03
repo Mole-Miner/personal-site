@@ -1,18 +1,26 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
-import { PrismaService } from "./prisma/prisma.service";
+import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import fastifyCookie from "@fastify/cookie";
 import { ValidationPipe } from "@nestjs/common";
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+import { AppModule } from './app.module';
+import { PrismaService } from "./prisma/prisma.service";
 
+async function bootstrap() {
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({ logger: true })
+  );
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: false }));
   app.setGlobalPrefix('api/v1');
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: true }));
+  await app.register(fastifyCookie);
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
+
+  await app.listen(3000, '0.0.0.0');
 }
+
 bootstrap();
