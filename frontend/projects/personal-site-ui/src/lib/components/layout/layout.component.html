@@ -1,0 +1,18 @@
+<mat-drawer-container class="layout" autosize>
+  <mat-drawer #drawer class="layout__sidenav" mode="over">
+    <p>Auto-resizing sidenav</p>
+  </mat-drawer>
+
+  <div class="layout__content">
+    <mat-toolbar>
+      <button type="button" mat-button (click)="drawer.toggle()">
+        Menu
+      </button>
+    </mat-toolbar>
+
+    <div>
+      <p>Outlet</p>
+    </div>
+  </div>
+
+</mat-drawer-container>

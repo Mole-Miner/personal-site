@@ -12,6 +12,8 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true })
   );
 
+  app.enableCors({ origin: 'http://localhsot:4200' });
+
   app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: false }));
   app.setGlobalPrefix('api/v1');
 

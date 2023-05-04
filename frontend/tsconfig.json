@@ -16,6 +16,14 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "paths": {
+      "personal-site-material": [
+        "dist/personal-site-material"
+      ],
+      "personal-site-ui": [
+        "dist/personal-site-ui"
+      ]
+    },
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
