@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { ComponentsModule } from "personal-site-ui";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: [ './app.component.scss' ],
   standalone: true,
-  imports: [CommonModule, ComponentsModule]
+  imports: [ CommonModule, RouterModule ]
 })
 export class AppComponent {
   title = 'admin';
