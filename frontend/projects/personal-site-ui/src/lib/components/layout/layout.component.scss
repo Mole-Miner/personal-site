@@ -1,3 +1,8 @@
+@use "sass:list";
+
+@use "adaptive" as adaptive;
+@use "screen" as screen;
+
 .layout {
   height: 100%;
 
@@ -10,3 +15,15 @@
     height: 100%;
   }
 }
+
+$layout-paddings: list.zip(screen.$screen-types, 1rem 6rem 12rem 20rem 28rem 36rem 44rem 52rem 60rem);
+
+@each $screen-type, $padding in $layout-paddings {
+  @include adaptive.media-query($screen-type) {
+    .layout__toolbar, .layout__outlet {
+      padding-inline: $padding;
+    }
+  }
+}
+
+

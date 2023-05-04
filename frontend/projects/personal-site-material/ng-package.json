@@ -3,5 +3,10 @@
   "dest": "../../dist/personal-site-material",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [{
+    "input": "src",
+    "glob": "_index.scss",
+    "output": ""
+  }]
 }

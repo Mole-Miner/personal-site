@@ -1,0 +1,61 @@
+@use "screen" as screen;
+
+@mixin media-query($screen-type) {
+  @media screen and (min-width: screen.get-screen-size($screen-type)) {
+    @content;
+  }
+}
+
+@mixin screen-mobile {
+  @include media-query(mobile) {
+    @content;
+  }
+}
+
+@mixin screen-tablet-portrait {
+  @include media-query(tablet-portrait) {
+    @content;
+  }
+}
+
+@mixin screen-tablet-landscape {
+  @include media-query(tablet-landscape) {
+    @content;
+  }
+}
+
+@mixin screen-laptop {
+  @include media-query(laptop) {
+    @content;
+  }
+}
+
+@mixin screen-desktop-small {
+  @include media-query(desktop-small) {
+    @content;
+  }
+}
+
+@mixin screen-desktop-medium {
+  @include media-query(desktop-medium) {
+    @content;
+  }
+}
+
+@mixin screen-desktop-large {
+  @include media-query(desktop-large) {
+    @content;
+  }
+}
+
+@mixin screen-desktop-enormous {
+  @include media-query(desktop-enormous) {
+    @content;
+  }
+}
+
+@mixin screen-desktop-tremendous {
+  @include media-query(desktop-tremendous) {
+    @content;
+  }
+}

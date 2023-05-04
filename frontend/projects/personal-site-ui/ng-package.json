@@ -2,6 +2,22 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/personal-site-ui",
   "lib": {
-    "entryFile": "src/public-api.ts"
-  }
+    "entryFile": "src/public-api.ts",
+    "styleIncludePaths": [
+      "src/assets/utils/variables",
+      "src/assets/utils/mixins"
+    ]
+  },
+  "assets": [
+    {
+      "input": "src",
+      "glob": "_index.scss",
+      "output": ""
+    },
+    {
+      "input": "src/assets",
+      "glob": "**/*.scss",
+      "output": "assets"
+    }
+  ]
 }

@@ -1,0 +1,23 @@
+@use "sass:map";
+
+$screen: (
+  "mobile": 280px,
+  "tablet-portrait": 600px,
+  "tablet-landscape": 900px,
+  "laptop": 1200px,
+  "desktop-small": 1500px,
+  "desktop-medium": 1800px,
+  "desktop-large": 2100px,
+  "desktop-enormous": 2400px,
+  "desktop-tremendous": 2700px
+);
+
+$screen-types: map.keys($screen);
+
+@function get-screen-size($screen-type) {
+  @if map.has-key($screen, $screen-type) {
+    @return map.get($screen, $screen-type);
+  } @else {
+    @error "Invalid screen type: #{$screen-type}. Provide correct screen type from follows: #{$screen-types}"
+  }
+}
