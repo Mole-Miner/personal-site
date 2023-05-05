@@ -1,22 +1,11 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Route, RouterModule } from "@angular/router";
+import { Route } from "@angular/router";
 
-import { LayoutComponent } from "../layout/layout.component";
+import { ShellComponent } from "./shell.component";
 
-@Component({
-  selector: 'ui-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterModule, LayoutComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
-})
-export class DashboardComponent {}
-
-export const dashboardRoutes = [
+export default [
   {
     path: '',
-    component: DashboardComponent,
+    component: ShellComponent,
     children: [
       {
         path: 'about',

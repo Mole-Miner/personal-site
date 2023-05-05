@@ -17,6 +17,9 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "paths": {
+      "personal-site-core": [
+        "dist/personal-site-core"
+      ],
       "personal-site-material": [
         "dist/personal-site-material"
       ],

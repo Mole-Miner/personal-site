@@ -3,7 +3,8 @@ import { Route } from "@angular/router";
 export default [
   {
     path: '',
-    loadComponent: () => import('personal-site-ui').then(m => m.DashboardComponent)
+    canMatch: [],
+    loadChildren: () => import('personal-site-ui').then(m => m.ShellModule)
   },
   {
     path: 'login',
