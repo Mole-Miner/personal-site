@@ -14,16 +14,14 @@ import { ActionAuthLogin, ActionAuthLogout } from "personal-site-core";
   imports: [ CommonModule, RouterModule ]
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'admin';
-
   private readonly destroy$ = new Subject<void>();
 
   constructor(private readonly actions: Actions, private readonly router: Router) {
   }
 
   ngOnInit(): void {
-    this.onAuthActionLogin();
-    this.onAuthActionLogout();
+    this.onActionAuthLogin();
+    this.onActionAuthLogout();
   }
 
   ngOnDestroy(): void {
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private onAuthActionLogin(): void {
+  private onActionAuthLogin(): void {
     this.actions.pipe(
       ofActionDispatched(ActionAuthLogin),
       takeUntil(this.destroy$)
@@ -40,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  private onAuthActionLogout(): void {
+  private onActionAuthLogout(): void {
     this.actions.pipe(
       ofActionDispatched(ActionAuthLogout),
       takeUntil(this.destroy$)

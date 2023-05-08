@@ -2,21 +2,25 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()" class="login__form">
     <mat-form-field class="login-form__field">
       <mat-label>Email</mat-label>
+
       <input matInput formControlName="username">
-      <div *ngIf="usernameControl.invalid && (usernameControl.dirty || usernameControl.touched)">
+
+      <ng-container *ngIf="usernameControl.invalid && (usernameControl.dirty || usernameControl.touched)">
         <mat-error *ngIf="usernameControl.errors?.['required']">Username is required.</mat-error>
         <mat-error *ngIf="usernameControl.errors?.['email']">Username must be a valid email.</mat-error>
-      </div>
+      </ng-container>
     </mat-form-field>
 
     <mat-form-field class="login-form__field">
       <mat-label>Password</mat-label>
+
       <input matInput formControlName="password">
-      <div *ngIf="passwordControl.invalid && (usernameControl.dirty || usernameControl.touched)">
+
+      <ng-container *ngIf="passwordControl.invalid && (usernameControl.dirty || usernameControl.touched)">
         <mat-error *ngIf="usernameControl.errors?.['required']">Password is required.</mat-error>
-      </div>
+      </ng-container>
     </mat-form-field>
 
-    <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary">Login</button>
+    <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary">Enter</button>
   </form>
 </div>

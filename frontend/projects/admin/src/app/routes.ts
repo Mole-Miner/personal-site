@@ -1,5 +1,5 @@
 import { Route } from "@angular/router";
-import { AuthGuard } from 'personal-site-core';
+import { authGuard } from 'personal-site-core';
 
 export const appRoutes = [
   {
@@ -8,7 +8,7 @@ export const appRoutes = [
   },
   {
     path: '',
-    canMatch: [ AuthGuard ],
+    canMatch: [ authGuard ],
     loadChildren: () => import('personal-site-ui').then(m => m.shellRoutes)
   },
   {

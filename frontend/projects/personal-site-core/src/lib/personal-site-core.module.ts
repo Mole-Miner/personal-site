@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { NgxsModule } from "@ngxs/store";
 import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 
 import { AuthService } from "./services";
 import { API_URL } from "./tokens";
 import { AuthState } from "./state";
+import { authInterceptor } from "./interceptors/auth.interceptor";
 
 @NgModule({
   imports: [
@@ -19,6 +20,11 @@ import { AuthState } from "./state";
     {
       provide: API_URL,
       useValue: 'http://localhost:3000/api/v1'
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useValue: authInterceptor,
+      multi: true
     },
     AuthService
   ],
