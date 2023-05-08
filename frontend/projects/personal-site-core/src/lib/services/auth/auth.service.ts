@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { API_URL } from "../tokens/api-url";
+import { API_URL } from "../../tokens";
 
 export type LoginDto = {
   username: string;
