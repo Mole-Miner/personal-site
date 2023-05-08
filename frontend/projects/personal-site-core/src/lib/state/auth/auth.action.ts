@@ -1,16 +1,16 @@
-import { LoginDto } from "../../services/auth.service";
+import { LoginDto } from "../../services";
 
-export class Login {
+export class ActionAuthLogin {
   static readonly type = '[Auth] Login';
 
   constructor(public payload: LoginDto) {
   }
 }
 
-export class Refresh {
+export class ActionAuthRefresh {
   static readonly type = '[Auth] Refresh';
 }
 
-export class Logout {
+export class ActionAuthLogout {
   static readonly type = '[Auth] Logout';
 }

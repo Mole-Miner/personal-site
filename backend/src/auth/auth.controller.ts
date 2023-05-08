@@ -20,7 +20,7 @@ export class AuthController {
     return this.authService.login(loginDto).pipe(
       map(({ access, refresh }) => {
         response.cookie('refresh', refresh);
-        return access;
+        return JSON.stringify(access);
       })
     );
   }

@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, tap } from "rxjs";
 
-import { AuthService } from "../../services/auth.service";
-import { Login, Logout, Refresh } from "./auth.action";
+import { AuthService } from "../../services";
+import { ActionAuthLogin, ActionAuthRefresh, ActionAuthLogout} from "./auth.action";
 
 export interface AuthStateModel {
   token: string | null;
@@ -32,8 +32,8 @@ export class AuthState {
   constructor(private readonly authService: AuthService) {
   }
 
-  @Action(Login)
-  login({ patchState }: StateContext<AuthStateModel>, { payload }: Login): Observable<string> {
+  @Action(ActionAuthLogin)
+  login({ patchState }: StateContext<AuthStateModel>, { payload }: ActionAuthLogin): Observable<string> {
     return this.authService.login(payload).pipe(
       tap(token => {
         patchState({
@@ -44,7 +44,7 @@ export class AuthState {
     );
   }
 
-  @Action(Refresh)
+  @Action(ActionAuthRefresh)
   refresh({ patchState }: StateContext<AuthStateModel>): Observable<string> {
     return this.authService.refresh().pipe(
       tap(token => {
@@ -55,7 +55,7 @@ export class AuthState {
     );
   }
 
-  @Action(Logout)
+  @Action(ActionAuthLogout)
   logout({ setState }: StateContext<AuthStateModel>): Observable<null> {
     return this.authService.logout().pipe(
       tap(() => {
