@@ -12,7 +12,7 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true })
   );
 
-  app.enableCors({ origin: 'http://localhost:4200' });
+  app.enableCors({ origin: 'http://localhost:4200', credentials: true });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, disableErrorMessages: false }));
   app.setGlobalPrefix('api/v1');
