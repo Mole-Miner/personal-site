@@ -9,8 +9,7 @@ import { LayoutComponent } from "../layout/layout.component";
   standalone: true,
   imports: [ CommonModule, RouterOutlet, LayoutComponent ],
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: [ './shell.component.scss' ]
 })
 export class ShellComponent {
-
 }

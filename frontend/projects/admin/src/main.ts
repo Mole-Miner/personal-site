@@ -5,7 +5,7 @@ import { provideRouter } from "@angular/router";
 import { PersonalSiteCoreModule } from 'personal-site-core';
 
 import { AppComponent } from "./app/app.component";
-import appRoutes from "./app/routes";
+import { appRoutes } from "./app/routes";
 
 bootstrapApplication(AppComponent, {
   providers: [

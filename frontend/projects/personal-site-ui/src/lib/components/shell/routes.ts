@@ -1,11 +1,9 @@
 import { Route } from "@angular/router";
 
-import { ShellComponent } from "./shell.component";
-
-export default [
+export const shellRoutes = [
   {
     path: '',
-    component: ShellComponent,
+    loadComponent: () => import('./shell.component').then(m => m.ShellComponent),
     children: [
       {
         path: 'about',
