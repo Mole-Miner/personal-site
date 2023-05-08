@@ -31,3 +31,32 @@ model Token {
   userId  String @unique @map("user_id") @db.Uuid
   user    User   @relation(fields: [userId], references: [id])
 }
+
+model Job {
+  id               Int                 @id @default(autoincrement())
+  title            String
+  company          String
+  periodStart      String              @map("period_start")
+  periodEnd        String              @map("period_end")
+  technology       String
+  responsibilities JobResponsibility[]
+}
+
+model JobResponsibility {
+  id      Int    @id @default(autoincrement())
+  content String
+  jobId   Int    @map("job_id")
+  job     Job    @relation(fields: [jobId], references: [id])
+}
+
+model News {
+  id        Int    @id @default(autoincrement())
+  title     String
+  content   String
+  published String
+}
+
+model Skill {
+  id    Int    @id @default(autoincrement())
+  title String
+}

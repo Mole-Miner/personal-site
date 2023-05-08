@@ -10,7 +10,7 @@ import { JwtConfig } from "./jwt.config";
 import { AuthController } from './auth.controller';
 
 @Module({
-  providers: [AuthService, TokensService],
+  providers: [ AuthService, TokensService ],
   imports: [
     ConfigModule.forFeature(JwtConfig),
     JwtModule.registerAsync({
@@ -26,6 +26,8 @@ import { AuthController } from './auth.controller';
     PrismaModule,
     UsersModule
   ],
-  controllers: [AuthController]
+  controllers: [ AuthController ],
+  exports: [ AuthService, TokensService ]
 })
-export class AuthModule {}
+export class AuthModule {
+}

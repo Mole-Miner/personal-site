@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { SkillsModule } from "./skills/skills.module";
+import { NewsModule } from "./news/news.module";
+import { JobsModule } from "./jobs/jobs.module";
 
 @Module({
   imports: [
@@ -14,8 +17,12 @@ import { AuthModule } from './auth/auth.module';
     }),
     PrismaModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    SkillsModule,
+    NewsModule,
+    JobsModule
   ],
-  controllers: [AppController]
+  controllers: [ AppController ]
 })
-export class AppModule {}
+export class AppModule {
+}
