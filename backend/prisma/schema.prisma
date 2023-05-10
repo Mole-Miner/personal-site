@@ -16,47 +16,79 @@ enum Role {
 }
 
 model User {
-  id        String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String @id @default(uuid()) @db.Uuid
   username  String @unique
   password  String
   firstname String @map("first_name")
   lastname  String @map("last_name")
   role      Role   @default(User)
-  token     Token?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  token Token?
+
+  @@map("user")
 }
 
 model Token {
-  id      String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id      String @id @default(uuid()) @db.Uuid
   refresh String
-  userId  String @unique @map("user_id") @db.Uuid
-  user    User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  userId String @unique @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("token")
 }
 
-model Job {
-  id               Int                 @id @default(autoincrement())
-  title            String
-  company          String
-  periodStart      String              @map("period_start")
-  periodEnd        String              @map("period_end")
-  technology       String
-  responsibilities JobResponsibility[]
+model Image {
+  id   String @id @default(uuid()) @db.Uuid
+  type String
+  name String @unique
+  data Bytes  @db.ByteA
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId String     @unique @map("experience_id") @db.Uuid
+
+  @@map("image")
 }
 
-model JobResponsibility {
-  id      Int    @id @default(autoincrement())
-  content String
-  jobId   Int    @map("job_id")
-  job     Job    @relation(fields: [jobId], references: [id])
+model Company {
+  id      String @id @default(uuid()) @db.Uuid
+  name    String
+  preview String
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experiences Experience[]
+
+  @@map("company")
 }
 
-model News {
-  id        Int    @id @default(autoincrement())
-  title     String
-  content   String
-  published String
-}
+model Experience {
+  id       String @id @default(uuid()) @db.Uuid
+  position String
+  start    String
+  end      String
 
-model Skill {
-  id    Int    @id @default(autoincrement())
-  title String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String  @map("company_id") @db.Uuid
+  image     Image?
+
+  @@map("experience")
 }

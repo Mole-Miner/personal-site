@@ -5,9 +5,8 @@ import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { SkillsModule } from "./skills/skills.module";
-import { NewsModule } from "./news/news.module";
-import { JobsModule } from "./jobs/jobs.module";
+import { CompaniesModule } from './companies/companies.module';
+import { ExperienceModule } from './experience/experience.module';
 
 @Module({
   imports: [
@@ -18,9 +17,8 @@ import { JobsModule } from "./jobs/jobs.module";
     PrismaModule,
     UsersModule,
     AuthModule,
-    SkillsModule,
-    NewsModule,
-    JobsModule
+    CompaniesModule,
+    ExperienceModule
   ],
   controllers: [ AppController ]
 })
