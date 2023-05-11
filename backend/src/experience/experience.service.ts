@@ -19,12 +19,13 @@ export class ExperienceService {
   }
 
   createExperience(dto: DtoCreateExperience): Observable<Experience> {
-    const { image, ...rest } = dto;
+    const { image, companyId, ...rest } = dto;
     const imgBuffer = Buffer.from(image.data, 'base64url');
     Logger.log(imgBuffer);
     return from(this.prisma.experience.create({
       data: {
         ...rest,
+        company: { connect: { id: companyId } },
         image: { create: { name: image.name, type: image.type, data: imgBuffer } }
       }
     }));
