@@ -1,0 +1,6 @@
+<ng-container *ngIf="(companies$ | async) as companies">
+  <div *ngFor="let company of companies">
+    <h1>{{ company.name }}</h1>
+    <p>{{ company.preview }}</p>
+  </div>
+</ng-container>

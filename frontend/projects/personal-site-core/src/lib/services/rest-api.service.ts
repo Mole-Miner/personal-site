@@ -14,8 +14,9 @@ export class RestApiService {
     this.url = `${ api }/${ feature }`;
   }
 
-  protected get<Response>(id?: string): Observable<Response> {
-    return this.httpClient.get<Response>(`${ this.url }/${ id }`);
+  protected get<Response>(id: string = ''): Observable<Response> {
+    const url = `${ this.url }${ id ? `/${ id }` : '' }`;
+    return this.httpClient.get<Response>(url);
   }
 
   protected post<Body, Response>(body: Body): Observable<Response> {
