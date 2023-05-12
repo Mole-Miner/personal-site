@@ -1,0 +1,31 @@
+<div [formGroup]="companyForm" class="company">
+  <h1>Company editor</h1>
+  <p *ngIf="isInteract">
+    Action:
+    <ng-container *ngIf="isCreation">Creating</ng-container>
+    <ng-container *ngIf="isEdition">Editing</ng-container>
+  </p>
+  <br/>
+
+  <mat-form-field *ngIf="isEdition" class="company__input" appearance="fill">
+    <mat-label>Company id</mat-label>
+    <input matInput formControlName="id">
+  </mat-form-field>
+
+  <mat-form-field class="company__input" appearance="fill">
+    <mat-label>Company name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field class="company__input" appearance="fill">
+    <mat-label>Company preview</mat-label>
+    <textarea matInput formControlName="preview" rows="5" cols="50" [style]="{ 'overflow': isInteract ? 'auto' : 'hidden' }"></textarea>
+  </mat-form-field>
+
+  <ng-container *ngIf="isInteract">
+    <button mat-raised-button color="primary" [disabled]="companyForm.invalid" (click)="onSave()">Save</button>
+    <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+  </ng-container>
+
+  <button *ngIf="!isInteract && isEdition" mat-raised-button color="primary" (click)="onEdit()">Edit</button>
+</div>
