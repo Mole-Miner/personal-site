@@ -11,6 +11,11 @@ import {
 } from 'personal-site-material';
 import { CompaniesTypes } from "personal-site-core";
 
+export interface CompanyEditorData {
+  action: 'create' | 'edit';
+  company: CompaniesTypes.Company | null;
+}
+
 export type CompanyEditorResult = CompaniesTypes.CreateCompany | CompaniesTypes.UpdateCompany;
 
 @Component({
@@ -30,12 +35,8 @@ export class CompanyEditorDialogComponent implements OnInit {
 
   constructor(
     private readonly dialogRef: MatDialogRef<CompanyEditorDialogComponent, CompanyEditorResult>,
-    @Inject(MAT_DIALOG_DATA) public readonly data: {
-      action: 'create' | 'edit',
-      company: CompaniesTypes.UpdateCompany | null
-    }
-  ) {
-  }
+    @Inject(MAT_DIALOG_DATA) public readonly data: CompanyEditorData
+  ) {}
 
   ngOnInit() {
     this.initCompanyForm();
@@ -47,7 +48,12 @@ export class CompanyEditorDialogComponent implements OnInit {
   }
 
   onSave() {
-    this.endInteraction(this.companyForm.getRawValue() as CompaniesTypes.UpdateCompany);
+    const result = this.companyForm.getRawValue();
+    if (this.isCreation) {
+      this.endInteraction(result as CompaniesTypes.CreateCompany);
+    } else {
+      this.endInteraction(result as CompaniesTypes.UpdateCompany);
+    }
   }
 
   onCancel() {
@@ -94,7 +100,7 @@ export class CompanyEditorDialogComponent implements OnInit {
     this.setIsInteract(true);
   }
 
-  private endInteraction(result?: CompaniesTypes.UpdateCompany) {
+  private endInteraction(result?: CompanyEditorResult) {
     this.interactCompanyForm(false);
     this.setIsInteract(false);
     this.dialogRef.close(result);
