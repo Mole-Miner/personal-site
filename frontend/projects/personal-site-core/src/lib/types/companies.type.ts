@@ -1,11 +1,27 @@
+import { Timestamp } from "./timestamp";
+
 export namespace CompaniesTypes {
-  export type Company = {
+  export interface Company extends Timestamp {
     id: string;
     name: string;
     preview: string;
   }
-  export type FindCompanyById = Pick<Company, 'id'>;
-  export type CreateCompany = Omit<Company, 'id'>;
-  export type UpdateCompany = Partial<CreateCompany> & FindCompanyById;
-  export type DeleteCompany = FindCompanyById;
+
+  export interface FindCompanyById {
+    id: string;
+  }
+
+  export interface CreateCompany {
+    name: string;
+    preview: string;
+  }
+
+  export interface UpdateCompany extends Partial<CreateCompany> {
+  }
+
+  export interface UpdateCompany extends FindCompanyById {
+  }
+
+  export interface DeleteCompany extends FindCompanyById {
+  }
 }
