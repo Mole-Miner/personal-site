@@ -22,10 +22,6 @@
     <textarea matInput formControlName="preview" rows="5" cols="50" [style]="{ 'overflow': isInteract ? 'auto' : 'hidden' }"></textarea>
   </mat-form-field>
 
-  <ng-container *ngIf="isInteract">
-    <button mat-raised-button color="primary" [disabled]="companyForm.invalid" (click)="onSave()">Save</button>
-    <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
-  </ng-container>
-
-  <button *ngIf="!isInteract && isEdition" mat-raised-button color="primary" (click)="onEdit()">Edit</button>
+  <button mat-raised-button color="primary" [disabled]="companyForm.invalid" (click)="onSave()">Save</button>
+  <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
 </div>

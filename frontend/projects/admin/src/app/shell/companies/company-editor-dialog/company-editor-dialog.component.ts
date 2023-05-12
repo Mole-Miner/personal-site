@@ -36,14 +36,11 @@ export class CompanyEditorDialogComponent implements OnInit {
   constructor(
     private readonly dialogRef: MatDialogRef<CompanyEditorDialogComponent, CompanyEditorResult>,
     @Inject(MAT_DIALOG_DATA) public readonly data: CompanyEditorData
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.initCompanyForm();
-    this.checkInteraction();
-  }
-
-  onEdit() {
     this.beginInteraction();
   }
 
@@ -60,20 +57,14 @@ export class CompanyEditorDialogComponent implements OnInit {
     this.endInteraction();
   }
 
-  private checkInteraction() {
-    if (this.isCreation) {
-      this.beginInteraction();
-    }
-  }
-
   private setIsInteract(value: boolean) {
     this.isInteract = value;
   }
 
   private initCompanyForm() {
     this.companyForm = new FormGroup({
-      name: new FormControl({ value: null, disabled: true }, [ Validators.required ]),
-      preview: new FormControl({ value: null, disabled: true }, [ Validators.required ])
+      name: new FormControl(null, [ Validators.required ]),
+      preview: new FormControl(null, [ Validators.required ])
     });
     if (this.isEdition) {
       this.companyForm.addControl('id', new FormControl({ value: null, disabled: true }));
@@ -85,23 +76,11 @@ export class CompanyEditorDialogComponent implements OnInit {
     }
   }
 
-  private interactCompanyForm(flag: boolean) {
-    [ this.companyForm.get('name'), this.companyForm.get('preview') ].forEach(control => {
-      if (flag) {
-        control?.enable();
-      } else {
-        control?.disable();
-      }
-    });
-  }
-
   private beginInteraction() {
-    this.interactCompanyForm(true);
     this.setIsInteract(true);
   }
 
   private endInteraction(result?: CompanyEditorResult) {
-    this.interactCompanyForm(false);
     this.setIsInteract(false);
     this.dialogRef.close(result);
   }
