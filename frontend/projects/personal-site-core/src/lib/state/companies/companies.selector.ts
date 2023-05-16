@@ -7,10 +7,6 @@ export namespace CompaniesSelectors {
     selectCompaniesFeature,
     ({ companies }) => companies
   )
-  export const selectLoading = createSelector(
-    selectCompaniesFeature,
-    ({ loading }) => loading
-  );
   export const selectErrorMsg = createSelector(
     selectCompaniesFeature,
     ({ errorMsg }) => errorMsg

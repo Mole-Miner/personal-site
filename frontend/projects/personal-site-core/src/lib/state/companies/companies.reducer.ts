@@ -1,17 +1,15 @@
 import { createFeature, createFeatureSelector, createReducer, on } from "@ngrx/store";
 
 import { CompaniesTypes } from "../../types";
-import { CompaniesApiActions, CompaniesPageActions } from './companies.action';
+import { CompaniesApiActions } from './companies.action';
 
 export interface CompaniesState {
   companies: CompaniesTypes.Company[];
-  loading: boolean;
   errorMsg: string;
 }
 
 const initialState: CompaniesState = {
   companies: [],
-  loading: false,
   errorMsg: ''
 }
 
@@ -24,15 +22,32 @@ export const companiesFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      CompaniesPageActions.findCompanies,
-      state => ({ ...state, loading: true })),
-    on(
-      CompaniesApiActions.companiesLoadedSuccess,
-      (state, { companies }) => ({ ...state, companies, loading: false })
+      CompaniesApiActions.companiesAPIFailure,
+      (state, { payload }) => ({ ...state, errorMsg: payload })
     ),
     on(
-      CompaniesApiActions.companiesLoadedFailure,
-      (state, { errorMsg }) => ({ ...state, errorMsg, loading: false })
+      CompaniesApiActions.companiesLoadedSuccess,
+      (state, { payload }) => ({ ...state, companies: payload })
+    ),
+    on(
+      CompaniesApiActions.companyCreatedSuccess,
+      (state, { payload }) => ({ ...state, companies: [ payload, ...state.companies ] })
+    ),
+    on(
+      CompaniesApiActions.companyUpdatedSuccess,
+      (state, { payload }) => {
+        const companies = [ ...state.companies ];
+        const target = companies.find(({ id }) => id === payload.id)!;
+        const idx = companies.indexOf(target);
+        companies.splice(idx, 1, payload);
+        return { ...state, companies };
+      }
+    ),
+    on(
+      CompaniesApiActions.companyDeletedSuccess,
+      (state, { payload }) => {
+        return { ...state, companies: state.companies.filter(({ id }) => id !== payload.id) };
+      }
     )
   )
 });
