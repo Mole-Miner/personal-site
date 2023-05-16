@@ -11,4 +11,5 @@ export * from '@angular/material/table';
 export * from '@angular/material/dialog';
 export * from '@angular/material/progress-spinner';
 export * from '@angular/material/menu';
+export * from '@angular/material/icon';
 export * from './lib/personal-site-material.module';
