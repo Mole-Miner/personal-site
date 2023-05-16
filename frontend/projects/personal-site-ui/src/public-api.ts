@@ -3,3 +3,4 @@
  */
 
 export * from './lib/components/layout/layout.component';
+export * from './lib/components/dialog/dialog.component';
