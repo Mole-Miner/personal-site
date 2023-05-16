@@ -3,7 +3,7 @@
 
   <h1>
     <span>Companies</span>
-    <button mat-raised-button color="primary" style="float: right" (click)="onCreateTableRow()">Add</button>
+    <button mat-raised-button color="primary" style="float: right" (click)="onAddCompany()">Add</button>
   </h1>
 
   <br />
@@ -30,7 +30,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableColumns;" (click)="onClickTableRow(row)"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns;" (click)="onClickCompany(row)"></tr>
     </table>
   </ng-container>
 </div>

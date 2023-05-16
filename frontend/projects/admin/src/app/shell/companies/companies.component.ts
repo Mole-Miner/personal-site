@@ -28,15 +28,19 @@ export class CompaniesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(CompaniesPageActions.findCompanies());
+    this.findCompanies();
   }
 
-  onCreateTableRow() {
+  onAddCompany() {
     this.openCompanyEditor('create', null);
   }
 
-  onClickTableRow(company: CompaniesTypes.Company) {
+  onClickCompany(company: CompaniesTypes.Company) {
     this.openCompanyEditor('edit', company);
+  }
+
+  private findCompanies() {
+    this.store.dispatch(CompaniesPageActions.loadCompanies());
   }
 
   private openCompanyEditor(action: 'create' | 'edit', company: CompaniesTypes.Company | null) {
@@ -54,9 +58,9 @@ export class CompaniesComponent implements OnInit {
         return;
       }
       if (action === 'create') {
-        this.store.dispatch(CompaniesPageActions.createCompany(company as CompaniesTypes.CreateCompany));
+        this.store.dispatch(CompaniesPageActions.createCompany({ payload: company as CompaniesTypes.CreateCompany }));
       } else {
-        this.store.dispatch(CompaniesPageActions.updateCompany(company as CompaniesTypes.UpdateCompany));
+        this.store.dispatch(CompaniesPageActions.updateCompany({ payload: company as CompaniesTypes.UpdateCompany }));
       }
     });
   }
