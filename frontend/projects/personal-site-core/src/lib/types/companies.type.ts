@@ -1,7 +1,7 @@
-import { Timestamp } from "./timestamp";
+import { BaseEntity } from "./entity";
 
 export namespace CompaniesTypes {
-  export interface Company extends Timestamp {
+  export interface Company extends BaseEntity {
     id: string;
     name: string;
     preview: string;
