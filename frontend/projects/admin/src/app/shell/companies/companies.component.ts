@@ -4,64 +4,37 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 import { CompaniesPageActions, CompaniesSelectors, CompaniesState, CompaniesTypes } from "personal-site-core";
-import { MatDialog, MatDialogRef, PersonalSiteMaterialModule } from "personal-site-material";
 
-import {
-  CompanyEditorData,
-  CompanyEditorDialogComponent,
-  CompanyEditorResult
-} from "./company-editor-dialog/company-editor-dialog.component";
+import { EditorComponent } from "../editor/editor.component";
 
 @Component({
   selector: 'app-companies',
   standalone: true,
-  imports: [ CommonModule, PersonalSiteMaterialModule ],
+  imports: [ CommonModule, EditorComponent ],
   templateUrl: './companies.component.html',
   styleUrls: [ './companies.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
   readonly companies$: Observable<CompaniesTypes.Company[]> = this.store.select(CompaniesSelectors.selectCompanies);
-  readonly tableColumns = [ 'name', 'createdAt', 'updatedAt', 'deletedAt' ];
+  readonly tableColumns = [ 'name' ];
 
-  constructor(private readonly store: Store<CompaniesState>, private readonly dialog: MatDialog) {
+  constructor(private readonly store: Store<CompaniesState>) {
   }
 
   ngOnInit() {
     this.findCompanies();
   }
 
-  onAddCompany() {
-    this.openCompanyEditor('create', null);
+  onCreateCompany(payload: CompaniesTypes.CreateCompany) {
+    this.store.dispatch(CompaniesPageActions.createCompany({ payload }));
   }
 
-  onClickCompany(company: CompaniesTypes.Company) {
-    this.openCompanyEditor('edit', company);
+  onUpdateCompany(payload: CompaniesTypes.UpdateCompany) {
+    this.store.dispatch(CompaniesPageActions.updateCompany({ payload }));
   }
 
   private findCompanies() {
     this.store.dispatch(CompaniesPageActions.loadCompanies());
-  }
-
-  private openCompanyEditor(action: 'create' | 'edit', company: CompaniesTypes.Company | null) {
-    const companyEditorRef: MatDialogRef<CompanyEditorDialogComponent, CompanyEditorResult> = this.dialog.open(
-      CompanyEditorDialogComponent,
-      {
-        data: {
-          action,
-          company
-        } as CompanyEditorData
-      }
-    );
-    companyEditorRef.afterClosed().subscribe(company => {
-      if (!company) {
-        return;
-      }
-      if (action === 'create') {
-        this.store.dispatch(CompaniesPageActions.createCompany({ payload: company as CompaniesTypes.CreateCompany }));
-      } else {
-        this.store.dispatch(CompaniesPageActions.updateCompany({ payload: company as CompaniesTypes.UpdateCompany }));
-      }
-    });
   }
 }
