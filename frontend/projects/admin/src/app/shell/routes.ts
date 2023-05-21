@@ -10,6 +10,10 @@ export const shellRoutes: Route[] = [
     loadComponent: () => import('./shell.component').then(m => m.ShellComponent),
     children: [
       {
+        path: 'about',
+        loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
+      },
+      {
         path: 'companies',
         providers: [
           provideState(companiesFeature),
@@ -19,9 +23,13 @@ export const shellRoutes: Route[] = [
         loadComponent: () => import('./companies/companies.component').then(m => m.CompaniesComponent)
       },
       {
+        path: 'experience',
+        loadComponent: () => import('./experience/experience.component').then(m => m.ExperienceComponent)
+      },
+      {
         path: '',
         pathMatch: 'prefix',
-        redirectTo: 'companies'
+        redirectTo: 'about'
       }
     ]
   }

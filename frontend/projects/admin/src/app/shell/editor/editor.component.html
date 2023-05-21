@@ -28,7 +28,7 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-header-row *matHeaderRowDef="columnsWithMenu"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsWithMenu" (click)="onClickTableRow(row)"></tr>
     </table>
   </ng-container>
