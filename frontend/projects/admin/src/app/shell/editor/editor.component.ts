@@ -1,20 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from "rxjs";
 
 import { BaseEntity } from "personal-site-core";
-import { PersonalSiteMaterialModule, MatDialog, MatDialogRef } from "personal-site-material";
+import { MatDialog, PersonalSiteMaterialModule } from "personal-site-material";
 
-import { EditorDialogComponent } from "./editor-dialog/editor-dialog.component";
+import { AbstractEditorDialog, EditorDialogData } from "./abstract-editor-dialog";
 
 @Component({
   selector: 'app-editor',
   standalone: true,
-  imports: [ CommonModule, PersonalSiteMaterialModule, EditorDialogComponent ],
+  imports: [ CommonModule, PersonalSiteMaterialModule ],
   templateUrl: './editor.component.html',
-  styleUrls: [ './editor.component.scss' ]
+  styleUrls: [ './editor.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorComponent<T extends BaseEntity = BaseEntity> {
+  @Input()
+  editorDialog!: Type<AbstractEditorDialog<T>>;
+
   @Input()
   set dataSource(source$: Observable<T[]>) {
     this.source$ = source$;
@@ -41,25 +45,20 @@ export class EditorComponent<T extends BaseEntity = BaseEntity> {
   }
 
   onAddTableRow() {
-    this.openEditorDialog('create', null);
+    this.openEditorDialog({ action: 'create' });
   }
 
   onClickTableRow(row: T) {
-    this.openEditorDialog('edit', row);
+    this.openEditorDialog({ action: 'update', entity: row });
   }
 
-  private openEditorDialog(action: 'create' | 'edit', payload: T | null) {
-    const dialogRef: MatDialogRef<EditorDialogComponent> = this.dialog.open(EditorDialogComponent, {
-      data: {
-        action,
-        payload
-      }
-    });
+  private openEditorDialog(data: EditorDialogData<T>) {
+    const dialogRef = this.dialog.open(this.editorDialog, { data });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
         return;
       }
-      if (action === 'create') {
+      if (data.action === 'create') {
         this.create.emit(result);
       } else {
         this.update.emit(result);

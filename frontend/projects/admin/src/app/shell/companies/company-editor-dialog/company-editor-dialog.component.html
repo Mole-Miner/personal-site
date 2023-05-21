@@ -4,8 +4,8 @@
   </ng-container>
 
   <ng-container *uiDialogBody>
-    <div [formGroup]="companyForm" class="company">
-      <mat-form-field *ngIf="isEdition" class="company__input" appearance="fill">
+    <div [formGroup]="form" class="company">
+      <mat-form-field *ngIf="isUpdate" class="company__input" appearance="fill">
         <mat-label>Company id</mat-label>
         <input matInput formControlName="id">
       </mat-form-field>
@@ -17,10 +17,10 @@
 
       <mat-form-field class="company__input" appearance="fill">
         <mat-label>Company preview</mat-label>
-        <textarea matInput formControlName="preview" rows="5" cols="50" [style]="{ 'overflow': isInteract ? 'auto' : 'hidden' }"></textarea>
+        <textarea matInput formControlName="preview" rows="5" cols="50"></textarea>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" [disabled]="companyForm.invalid" (click)="onSave()">Save</button>
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
       <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
     </div>
   </ng-container>
