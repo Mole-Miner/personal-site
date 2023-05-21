@@ -4,28 +4,28 @@ import { RestApiService } from "../rest-api.service";
 import { CompaniesTypes } from "../../types";
 
 @Injectable()
-export class CompaniesService extends RestApiService {
+export class CompaniesService extends RestApiService<CompaniesTypes.Company> {
   constructor() {
     super('companies');
   }
 
   findCompanies() {
-    return this.get<CompaniesTypes.Company[]>();
+    return this.findMany();
   }
 
-  findCompanyById({ id }: CompaniesTypes.FindCompanyById) {
-    return this.get<CompaniesTypes.Company>(id);
+  findCompany(payload: CompaniesTypes.FindCompany) {
+    return this.findOne(payload);
   }
 
   createCompany(payload: CompaniesTypes.CreateCompany) {
-    return this.post<CompaniesTypes.CreateCompany, CompaniesTypes.Company>(payload);
+    return this.create(payload);
   }
 
-  updateCompany({ id, ...rest }: CompaniesTypes.UpdateCompany) {
-    return this.patch<Partial<CompaniesTypes.CreateCompany>, CompaniesTypes.Company>(id, rest);
+  updateCompany(payload: CompaniesTypes.UpdateCompany) {
+    return this.update(payload);
   }
 
-  deleteCompany({ id }: CompaniesTypes.DeleteCompany) {
-    return this.delete<CompaniesTypes.Company>(id);
+  deleteCompany(payload: CompaniesTypes.DeleteCompany) {
+    return this.delete(payload);
   }
 }

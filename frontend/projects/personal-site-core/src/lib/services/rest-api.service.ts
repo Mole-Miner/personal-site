@@ -1,10 +1,12 @@
-import { inject } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { API_URL } from "../tokens";
+import { EntityTypes } from "../types";
 
-export class RestApiService {
+@Injectable()
+export class RestApiService<T extends EntityTypes.BaseEntity = EntityTypes.BaseEntity> {
   private readonly httpClient: HttpClient;
   private readonly url: string;
 
@@ -14,20 +16,23 @@ export class RestApiService {
     this.url = `${ api }/${ feature }`;
   }
 
-  protected get<Response>(id: string = ''): Observable<Response> {
-    const url = `${ this.url }${ id ? `/${ id }` : '' }`;
-    return this.httpClient.get<Response>(url);
+  protected findMany(): Observable<T[]> {
+    return this.httpClient.get<T[]>(this.url);
   }
 
-  protected post<Body, Response>(body: Body): Observable<Response> {
-    return this.httpClient.post<Response>(this.url, body);
+  protected findOne({ where }: EntityTypes.FindEntity): Observable<T> {
+    return this.httpClient.get<T>(`${ this.url }/${ where.id }`);
   }
 
-  protected patch<Body, Response>(id: string, body: Body): Observable<Response> {
-    return this.httpClient.patch<Response>(`${ this.url }/${ id }`, body);
+  protected create({ data }: EntityTypes.CreateEntity<T>): Observable<T> {
+    return this.httpClient.post<T>(this.url, data);
   }
 
-  protected delete<Response>(id: string): Observable<Response> {
-    return this.httpClient.delete<Response>(`${ this.url }/${ id }`);
+  protected update({ where, data }: EntityTypes.UpdateEntity<T>): Observable<T> {
+    return this.httpClient.patch<T>(`${ this.url }/${ where.id }`, data);
+  }
+
+  protected delete({ where }: EntityTypes.DeleteEntity): Observable<T> {
+    return this.httpClient.delete<T>(`${ this.url }/${ where.id }`);
   }
 }
