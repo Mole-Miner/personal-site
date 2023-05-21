@@ -1,0 +1,27 @@
+<ui-dialog (close)="onClose()">
+  <ng-container *uiDialogHeader>
+    <h1>Company editor</h1>
+  </ng-container>
+
+  <ng-container *uiDialogBody>
+    <div [formGroup]="form" class="company">
+      <mat-form-field *ngIf="isUpdate" class="company__input" appearance="fill">
+        <mat-label>Company id</mat-label>
+        <input matInput formControlName="id">
+      </mat-form-field>
+
+      <mat-form-field class="company__input" appearance="fill">
+        <mat-label>Company name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="company__input" appearance="fill">
+        <mat-label>Company preview</mat-label>
+        <textarea matInput formControlName="preview" rows="5" cols="50"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+      <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+    </div>
+  </ng-container>
+</ui-dialog>

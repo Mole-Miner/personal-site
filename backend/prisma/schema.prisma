@@ -16,18 +16,79 @@ enum Role {
 }
 
 model User {
-  id        String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String @id @default(uuid()) @db.Uuid
   username  String @unique
   password  String
   firstname String @map("first_name")
   lastname  String @map("last_name")
   role      Role   @default(User)
-  token     Token?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  token Token?
+
+  @@map("user")
 }
 
 model Token {
-  id      String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id      String @id @default(uuid()) @db.Uuid
   refresh String
-  userId  String @unique @map("user_id") @db.Uuid
-  user    User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  userId String @unique @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("token")
+}
+
+model Image {
+  id   String @id @default(uuid()) @db.Uuid
+  type String
+  name String @unique
+  data Bytes  @db.ByteA
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId String     @unique @map("experience_id") @db.Uuid
+
+  @@map("image")
+}
+
+model Company {
+  id      String @id @default(uuid()) @db.Uuid
+  name    String
+  preview String
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experiences Experience[]
+
+  @@map("company")
+}
+
+model Experience {
+  id       String @id @default(uuid()) @db.Uuid
+  position String
+  start    String
+  end      String
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String  @map("company_id") @db.Uuid
+  image     Image?
+
+  @@map("experience")
 }

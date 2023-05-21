@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Store } from "@ngxs/store";
 
 import { PersonalSiteMaterialModule } from "personal-site-material";
-import { ActionAuthLogin } from "personal-site-core";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +22,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password') as FormControl;
   }
 
-  constructor(private readonly store: Store) {
+  constructor() {
   }
 
   ngOnInit(): void {
@@ -40,6 +38,5 @@ export class LoginComponent implements OnInit {
 
   onSubmitLoginForm(): void {
     const payload = this.loginForm.getRawValue();
-    this.store.dispatch(new ActionAuthLogin(payload));
   }
 }
