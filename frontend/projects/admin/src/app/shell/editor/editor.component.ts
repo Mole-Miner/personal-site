@@ -27,6 +27,7 @@ export class EditorComponent<T extends BaseEntity = BaseEntity> {
   @Input()
   set displayedColumns(columns: string[]) {
     this.columns = [ ...columns, 'createdAt', 'updatedAt', 'deletedAt' ];
+    this.columnsWithMenu = [ ...this.columns, 'menu' ];
   }
 
   @Input()
@@ -38,8 +39,12 @@ export class EditorComponent<T extends BaseEntity = BaseEntity> {
   @Output()
   update = new EventEmitter();
 
+  @Output()
+  delete = new EventEmitter();
+
   source$!: Observable<T[]>;
   columns!: string[];
+  columnsWithMenu!: string[];
 
   constructor(private readonly dialog: MatDialog) {
   }
@@ -50,6 +55,10 @@ export class EditorComponent<T extends BaseEntity = BaseEntity> {
 
   onClickTableRow(row: T) {
     this.openEditorDialog({ action: 'update', entity: row });
+  }
+
+  onDeleteTableRow(row: T) {
+    this.delete.emit(row);
   }
 
   private openEditorDialog(data: EditorDialogData<T>) {

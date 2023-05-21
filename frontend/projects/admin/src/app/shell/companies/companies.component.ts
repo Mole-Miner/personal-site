@@ -29,12 +29,16 @@ export class CompaniesComponent implements OnInit {
     this.findCompanies();
   }
 
-  onCreateCompany(payload: CompaniesTypes.CreateCompany) {
-    this.store.dispatch(CompaniesPageActions.createCompany({ payload }));
+  onCreateCompany(company: CompaniesTypes.CreateCompany) {
+    this.store.dispatch(CompaniesPageActions.createCompany({ payload: company }));
   }
 
-  onUpdateCompany(payload: CompaniesTypes.UpdateCompany) {
-    this.store.dispatch(CompaniesPageActions.updateCompany({ payload }));
+  onUpdateCompany(company: CompaniesTypes.UpdateCompany) {
+    this.store.dispatch(CompaniesPageActions.updateCompany({ payload: company }));
+  }
+
+  onDeleteCompany(company: CompaniesTypes.Company) {
+    this.store.dispatch(CompaniesPageActions.deleteCompany({ payload: { id: company.id } }))
   }
 
   private findCompanies() {
