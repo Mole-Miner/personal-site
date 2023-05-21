@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatDialogModule } from 'personal-site-material';
+import { MatDialogModule, MatButtonModule, MatIconModule } from 'personal-site-material';
 
 @Directive({
   selector: '[uiDialogHeader]',
@@ -56,6 +56,8 @@ export class DialogBodyHostDirective {
   imports: [
     CommonModule,
     MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
     DialogHeaderTemplateDirective,
     DialogBodyTemplateDirective,
     DialogHeaderHostDirective,
