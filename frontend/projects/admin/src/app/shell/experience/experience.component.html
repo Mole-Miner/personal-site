@@ -1,1 +1,9 @@
-<p>experience works!</p>
+<app-editor
+  [editorDialog]="experienceEditorDialog"
+  [dataSource]="experienceList$"
+  [displayedColumns]="tableColumns"
+  [title]="'Experience'"
+  (create)="onCreateExperience($event)"
+  (update)="onUpdateExperience($event)"
+  (delete)="onDeleteExperience($event)"
+></app-editor>

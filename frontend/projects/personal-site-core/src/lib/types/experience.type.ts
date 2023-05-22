@@ -1,4 +1,4 @@
-import { EntityTypes } from "./entity";
+import { EntityTypes } from "./entity.type";
 import { ImagesTypes } from "./images.type";
 
 export namespace ExperienceTypes {

@@ -1,14 +1,14 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectCompaniesFeature } from "./experience.reducer";
+import { selectExperienceFeature } from "./experience.reducer";
 
-export namespace CompaniesSelectors {
-  export const selectCompanies = createSelector(
-    selectCompaniesFeature,
-    ({ companies }) => companies
+export namespace ExperienceSelectors {
+  export const selectExperienceList = createSelector(
+    selectExperienceFeature,
+    ({ experienceList }) => experienceList
   )
   export const selectErrorMsg = createSelector(
-    selectCompaniesFeature,
+    selectExperienceFeature,
     ({ errorMsg }) => errorMsg
   )
 }

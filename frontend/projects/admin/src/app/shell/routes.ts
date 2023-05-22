@@ -2,7 +2,7 @@ import { Route } from "@angular/router";
 import { provideState } from '@ngrx/store';
 import { provideEffects } from "@ngrx/effects";
 
-import { companiesFeature, CompaniesEffects, CompaniesService } from "personal-site-core";
+import { companiesFeature, CompaniesEffects, CompaniesService, ExperienceEffects, experienceFeature, ExperienceService  } from "personal-site-core";
 
 export const shellRoutes: Route[] = [
   {
@@ -24,6 +24,13 @@ export const shellRoutes: Route[] = [
       },
       {
         path: 'experience',
+        providers: [
+          provideState(experienceFeature),
+          provideState(companiesFeature),
+          provideEffects(ExperienceEffects, CompaniesEffects),
+          ExperienceService,
+          CompaniesService
+        ],
         loadComponent: () => import('./experience/experience.component').then(m => m.ExperienceComponent)
       },
       {

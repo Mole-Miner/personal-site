@@ -1,11 +1,10 @@
-import { inject, Injectable } from "@angular/core";
+import { inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { API_URL } from "../tokens";
 import { EntityTypes } from "../types";
 
-@Injectable()
 export class RestApiService<T extends EntityTypes.BaseEntity = EntityTypes.BaseEntity> {
   private readonly httpClient: HttpClient;
   private readonly url: string;

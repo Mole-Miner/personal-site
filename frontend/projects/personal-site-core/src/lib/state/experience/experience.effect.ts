@@ -5,69 +5,72 @@ import { catchError, exhaustMap, map, of } from "rxjs";
 import { ExperienceService } from "../../services";
 import { ExperienceApiActions, ExperiencePageActions } from "./experience.action";
 
-// export namespace CompaniesEffects {
-//   export const findCompanies = createEffect(
-//     (actions$ = inject(Actions), companiesService = inject(CompaniesService)) => {
-//       return actions$.pipe(
-//         ofType(CompaniesPageActions.loadCompanies),
-//         exhaustMap(() => {
-//           return companiesService.findCompanies().pipe(
-//             map(companies => CompaniesApiActions.companiesLoadedSuccess({ payload: companies })),
-//             catchError((error: { message: string }) => {
-//               return of(CompaniesApiActions.companiesAPIFailure({ payload: error.message }));
-//             })
-//           );
-//         })
-//       );
-//     },
-//     { functional: true }
-//   );
-//   export const createCompany = createEffect(
-//     (actions$ = inject(Actions), companiesService = inject(CompaniesService)) => {
-//       return actions$.pipe(
-//         ofType(CompaniesPageActions.createCompany),
-//         exhaustMap(({ payload }) => {
-//           return companiesService.createCompany(payload).pipe(
-//             map(company => CompaniesApiActions.companyCreatedSuccess({ payload: company })),
-//             catchError((error: { message: string }) => {
-//               return of(CompaniesApiActions.companiesAPIFailure({ payload: error.message }));
-//             })
-//           );
-//         })
-//       );
-//     },
-//     { functional: true }
-//   );
-//   export const updateCompany = createEffect(
-//     (actions$ = inject(Actions), companiesService = inject(CompaniesService)) => {
-//       return actions$.pipe(
-//         ofType(CompaniesPageActions.updateCompany),
-//         exhaustMap(({ payload }) => {
-//           return companiesService.updateCompany(payload).pipe(
-//             map(company => CompaniesApiActions.companyUpdatedSuccess({ payload: company })),
-//             catchError((error: { message: string }) => {
-//               return of(CompaniesApiActions.companiesAPIFailure({ payload: error.message }));
-//             })
-//           );
-//         })
-//       );
-//     },
-//     { functional: true }
-//   );
-//   export const deleteCompany = createEffect(
-//     (actions$ = inject(Actions), companiesService = inject(CompaniesService)) => {
-//       return actions$.pipe(
-//         ofType(CompaniesPageActions.deleteCompany),
-//         exhaustMap(({ payload }) => {
-//           return companiesService.deleteCompany(payload).pipe(
-//             map(company => CompaniesApiActions.companyDeletedSuccess({ payload: company })),
-//             catchError((error: { message: string }) => {
-//               return of(CompaniesApiActions.companiesAPIFailure({ payload: error.message }));
-//             })
-//           );
-//         })
-//       );
-//     },
-//     { functional: true }
-//   );
-// }
+export namespace ExperienceEffects {
+  export const findExperienceList = createEffect(
+    (actions$ = inject(Actions), experienceService = inject(ExperienceService)) => {
+      return actions$.pipe(
+        ofType(ExperiencePageActions.loadExperienceList),
+        exhaustMap(() => {
+          return experienceService.findExperienceList().pipe(
+            map(experienceList => ExperienceApiActions.experienceListLoadedSuccess({ payload: experienceList })),
+            catchError((error: { message: string }) => {
+              return of(ExperienceApiActions.experienceAPIFailure({ payload: error.message }));
+            })
+          );
+        })
+      );
+    },
+    { functional: true }
+  );
+
+  export const createExperience = createEffect(
+    (actions$ = inject(Actions), experienceService = inject(ExperienceService)) => {
+      return actions$.pipe(
+        ofType(ExperiencePageActions.createExperience),
+        exhaustMap(({ payload }) => {
+          return experienceService.createExperience(payload).pipe(
+            map(experience => ExperienceApiActions.experienceCreatedSuccess({ payload: experience })),
+            catchError((error: { message: string }) => {
+              return of(ExperienceApiActions.experienceAPIFailure({ payload: error.message }));
+            })
+          );
+        })
+      );
+    },
+    { functional: true }
+  );
+
+  export const updateExperience = createEffect(
+    (actions$ = inject(Actions), experienceService = inject(ExperienceService)) => {
+      return actions$.pipe(
+        ofType(ExperiencePageActions.updateExperience),
+        exhaustMap(({ payload }) => {
+          return experienceService.updateExperience(payload).pipe(
+            map(company => ExperienceApiActions.experienceUpdatedSuccess({ payload: company })),
+            catchError((error: { message: string }) => {
+              return of(ExperienceApiActions.experienceAPIFailure({ payload: error.message }));
+            })
+          );
+        })
+      );
+    },
+    { functional: true }
+  );
+
+  export const deleteExperience = createEffect(
+    (actions$ = inject(Actions), experienceService = inject(ExperienceService)) => {
+      return actions$.pipe(
+        ofType(ExperiencePageActions.deleteExperience),
+        exhaustMap(({ payload }) => {
+          return experienceService.deleteExperience(payload).pipe(
+            map(company => ExperienceApiActions.experienceDeletedSuccess({ payload: company })),
+            catchError((error: { message: string }) => {
+              return of(ExperienceApiActions.experienceAPIFailure({ payload: error.message }));
+            })
+          );
+        })
+      );
+    },
+    { functional: true }
+  );
+}

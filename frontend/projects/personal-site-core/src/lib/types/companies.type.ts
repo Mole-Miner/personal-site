@@ -1,4 +1,4 @@
-import { EntityTypes } from "./entity";
+import { EntityTypes } from "./entity.type";
 
 export namespace CompaniesTypes {
   export interface Company extends EntityTypes.BaseEntity {

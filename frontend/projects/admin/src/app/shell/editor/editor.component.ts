@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type }
 import { CommonModule } from '@angular/common';
 import { Observable } from "rxjs";
 
-import { BaseEntity } from "personal-site-core";
+import { EntityTypes } from "personal-site-core";
 import { MatDialog, PersonalSiteMaterialModule } from "personal-site-material";
 
 import { AbstractEditorDialog, EditorDialogData } from "./abstract-editor-dialog";
@@ -15,7 +15,7 @@ import { AbstractEditorDialog, EditorDialogData } from "./abstract-editor-dialog
   styleUrls: [ './editor.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorComponent<T extends BaseEntity = BaseEntity> {
+export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.BaseEntity> {
   @Input()
   editorDialog!: Type<AbstractEditorDialog<T>>;
 

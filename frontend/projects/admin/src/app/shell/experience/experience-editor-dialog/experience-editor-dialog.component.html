@@ -1,0 +1,48 @@
+<ui-dialog (close)="onClose()">
+  <ng-container *uiDialogHeader>
+    <h1>Experience editor</h1>
+  </ng-container>
+
+  <ng-container *uiDialogBody>
+    <div [formGroup]="form" class="experience">
+      <ng-container *ngIf="imageSource">
+        <img [src]="imageSource" alt="Background img" width="200">
+      </ng-container>
+      <input type="file" accept="image/png, image/jpeg" (change)="onSelectImage($event)">
+
+      <mat-form-field *ngIf="isUpdate" class="experience__input" appearance="fill">
+        <mat-label>Id</mat-label>
+        <input matInput formControlName="id">
+      </mat-form-field>
+
+      <mat-form-field class="experience__input" appearance="fill">
+        <mat-label>Position</mat-label>
+        <input matInput formControlName="position">
+      </mat-form-field>
+
+      <mat-form-field class="experience__input" appearance="fill">
+        <mat-label>Start</mat-label>
+        <input matInput [matDatepicker]="startDate" formControlName="start">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="experience__input" appearance="fill">
+        <mat-label>End</mat-label>
+        <input matInput [matDatepicker]="endDate" formControlName="end">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="experience__input" appearance="fill">
+        <mat-label>Company</mat-label>
+        <input matInput formControlName="companyId">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+      <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+    </div>
+  </ng-container>
+</ui-dialog>

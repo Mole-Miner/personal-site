@@ -3,52 +3,52 @@ import { createFeature, createFeatureSelector, createReducer, on } from "@ngrx/s
 import { ExperienceTypes } from "../../types";
 import { ExperienceApiActions } from './experience.action';
 
-// export interface CompaniesState {
-//   companies: CompaniesTypes.Company[];
-//   errorMsg: string;
-// }
-//
-// const initialState: CompaniesState = {
-//   companies: [],
-//   errorMsg: ''
-// }
-//
-// export const companiesFeatureKey = 'companies';
-//
-// export const selectCompaniesFeature = createFeatureSelector<CompaniesState>(companiesFeatureKey);
-//
-// export const companiesFeature = createFeature({
-//   name: companiesFeatureKey,
-//   reducer: createReducer(
-//     initialState,
-//     on(
-//       CompaniesApiActions.companiesAPIFailure,
-//       (state, { payload }) => ({ ...state, errorMsg: payload })
-//     ),
-//     on(
-//       CompaniesApiActions.companiesLoadedSuccess,
-//       (state, { payload }) => ({ ...state, companies: payload })
-//     ),
-//     on(
-//       CompaniesApiActions.companyCreatedSuccess,
-//       (state, { payload }) => ({ ...state, companies: [ payload, ...state.companies ] })
-//     ),
-//     on(
-//       CompaniesApiActions.companyUpdatedSuccess,
-//       (state, { payload }) => {
-//         const companies = [ ...state.companies ];
-//         const target = companies.find(({ id }) => id === payload.id)!;
-//         const idx = companies.indexOf(target);
-//         companies.splice(idx, 1, payload);
-//         return { ...state, companies };
-//       }
-//     ),
-//     on(
-//       CompaniesApiActions.companyDeletedSuccess,
-//       (state, { payload }) => {
-//         return { ...state, companies: state.companies.filter(({ id }) => id !== payload.id) };
-//       }
-//     )
-//   )
-// });
+export interface ExperienceState {
+  experienceList: ExperienceTypes.Experience[];
+  errorMsg: string;
+}
+
+const initialState: ExperienceState = {
+  experienceList: [],
+  errorMsg: ''
+}
+
+export const experienceFeatureKey = 'experience';
+
+export const selectExperienceFeature = createFeatureSelector<ExperienceState>(experienceFeatureKey);
+
+export const experienceFeature = createFeature({
+  name: experienceFeatureKey,
+  reducer: createReducer(
+    initialState,
+    on(
+      ExperienceApiActions.experienceAPIFailure,
+      (state, { payload }) => ({ ...state, errorMsg: payload })
+    ),
+    on(
+      ExperienceApiActions.experienceListLoadedSuccess,
+      (state, { payload }) => ({ ...state, experienceList: payload })
+    ),
+    on(
+      ExperienceApiActions.experienceCreatedSuccess,
+      (state, { payload }) => ({ ...state, experienceList: [ payload, ...state.experienceList ] })
+    ),
+    on(
+      ExperienceApiActions.experienceUpdatedSuccess,
+      (state, { payload }) => {
+        const experienceList = [ ...state.experienceList ];
+        const target = experienceList.find(({ id }) => id === payload.id)!;
+        const idx = experienceList.indexOf(target);
+        experienceList.splice(idx, 1, payload);
+        return { ...state, experienceList };
+      }
+    ),
+    on(
+      ExperienceApiActions.experienceDeletedSuccess,
+      (state, { payload }) => {
+        return { ...state, experienceList: state.experienceList.filter(({ id }) => id !== payload.id) };
+      }
+    )
+  )
+});
 

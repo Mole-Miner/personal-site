@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
-import { BaseEntity } from 'personal-site-core';
+import { EntityTypes } from 'personal-site-core';
 
 export interface EditorDialogData<T> {
   action: 'create' | 'update';
@@ -11,7 +11,7 @@ export interface EditorDialogData<T> {
 }
 
 @Injectable()
-export abstract class AbstractEditorDialog<T extends BaseEntity = BaseEntity, R = any> {
+export abstract class AbstractEditorDialog<T extends EntityTypes.BaseEntity = EntityTypes.BaseEntity, R = any> {
   private readonly dialogRef: MatDialogRef<AbstractEditorDialog, R> = inject(MatDialogRef);
   private readonly data: EditorDialogData<T> = inject(MAT_DIALOG_DATA);
 
@@ -33,7 +33,7 @@ export abstract class AbstractEditorDialog<T extends BaseEntity = BaseEntity, R 
     this.close();
   }
 
-  private close(result?: R) {
+  protected close(result?: R) {
     this.dialogRef.close(result)
   }
 }
