@@ -1,23 +1,6 @@
-import { IsNotEmpty, IsString, MaxLength, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
+import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
-class DtoCreateExperienceImage {
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(32)
-  name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(5)
-  type: string;
-
-  @IsString()
-  @IsNotEmpty()
-  data: string;
-}
-
-export class DtoCreateExperience {
+export class CreateExperienceDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(32)
@@ -35,11 +18,11 @@ export class DtoCreateExperience {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(32)
+  @MaxLength(64)
   companyId: string;
 
+  @IsString()
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => DtoCreateExperienceImage)
-  image: DtoCreateExperienceImage;
+  @MaxLength(64)
+  imageId: string;
 }

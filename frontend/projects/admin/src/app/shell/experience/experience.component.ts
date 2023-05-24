@@ -30,7 +30,7 @@ export class ExperienceComponent implements OnInit {
 
   onCreateExperience(experience: ExperienceTypes.CreateExperience) {
     console.log(experience);
-    this.store.dispatch(ExperiencePageActions.createExperience({ payload: experience }));
+    // this.store.dispatch(ExperiencePageActions.createExperience({ payload: experience }));
   }
 
   onUpdateExperience(experience: ExperienceTypes.UpdateExperience) {
@@ -38,7 +38,7 @@ export class ExperienceComponent implements OnInit {
   }
 
   onDeleteExperience(experience: ExperienceTypes.Experience) {
-    // this.store.dispatch(ExperiencePageActions.deleteExperience({ payload: { where: { id: experience.id } } }));
+    this.store.dispatch(ExperiencePageActions.deleteExperience({ payload: { where: { id: experience.id } } }));
   }
 
   private findExperienceList() {

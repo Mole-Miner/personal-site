@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { from, Observable } from "rxjs";
+import { Injectable } from '@nestjs/common';
+import { exhaustMap, from, Observable } from "rxjs";
 import { Experience, Prisma } from "@prisma/client";
 
 import { PrismaService } from "../prisma/prisma.service";
-import { DtoCreateExperience } from "./dto/create-experience.dto";
+import { CreateExperienceDto } from "./dto/create-experience.dto";
 
 @Injectable()
 export class ExperienceService {
@@ -11,24 +11,38 @@ export class ExperienceService {
   }
 
   findExperienceList(): Observable<Experience[]> {
-    return from(this.prisma.experience.findMany());
+    return from(this.prisma.experience.findMany({ include: { company: true } }));
   }
 
   findExperienceById(id: string): Observable<Experience> {
     return from(this.prisma.experience.findUnique({ where: { id } }));
   }
 
-  createExperience(dto: DtoCreateExperience): Observable<Experience> {
-    const { image, companyId, ...rest } = dto;
-    const imgBuffer = Buffer.from(image.data, 'base64url');
-    Logger.log(imgBuffer);
-    return from(this.prisma.experience.create({
+  createExperience(dto: CreateExperienceDto): Observable<Experience> {
+    const { companyId, imageId, ...rest } = dto;
+    const createExperience$ = from(this.prisma.experience.create({
       data: {
         ...rest,
         company: { connect: { id: companyId } },
-        image: { create: { name: image.name, type: image.type, data: imgBuffer } }
       }
     }));
+    return createExperience$.pipe(
+      exhaustMap(({ id: experienceId }) => {
+        return this.prisma.experience.update({
+          where: { id: experienceId },
+          data: {
+            images: {
+              connect: {
+                experienceId_imageId: {
+                  imageId,
+                  experienceId
+                }
+              }
+            }
+          }
+        });
+      })
+    );
   }
 
   updateExperience(id: string, data: Prisma.ExperienceUncheckedUpdateInput): Observable<Experience> {

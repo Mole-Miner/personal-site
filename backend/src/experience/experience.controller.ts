@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { Observable } from "rxjs";
 import { Experience } from "@prisma/client";
 
 import { ExperienceService } from "./experience.service";
-import { DtoCreateExperience } from "./dto/create-experience.dto";
+import { CreateExperienceDto } from "./dto/create-experience.dto";
 
 @Controller('experience')
 export class ExperienceController {
@@ -21,7 +21,12 @@ export class ExperienceController {
   }
 
   @Post()
-  createExperience(@Body() dto: DtoCreateExperience): Observable<Experience> {
+  createExperience(@Body() dto: CreateExperienceDto): Observable<Experience> {
     return this.experienceService.createExperience(dto);
+  }
+
+  @Delete(':id')
+  deleteExperience(@Param('id') id: string): Observable<Experience> {
+    return this.experienceService.deleteExperience(id);
   }
 }
