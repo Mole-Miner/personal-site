@@ -11,7 +11,7 @@ export class ExperienceService {
   }
 
   findExperienceList(): Observable<Experience[]> {
-    return from(this.prisma.experience.findMany({ include: { company: true } }));
+    return from(this.prisma.experience.findMany({ include: { company: true, images: true } }));
   }
 
   findExperienceById(id: string): Observable<Experience> {
@@ -28,7 +28,7 @@ export class ExperienceService {
     }));
     return createExperience$.pipe(
       exhaustMap(({ id: experienceId }) => {
-        return this.prisma.experience.update({
+        return from(this.prisma.experience.update({
           where: { id: experienceId },
           data: {
             images: {
@@ -40,7 +40,7 @@ export class ExperienceService {
               }
             }
           }
-        });
+        }));
       })
     );
   }
