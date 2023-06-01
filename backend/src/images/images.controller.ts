@@ -1,10 +1,11 @@
-import { Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { ApiTags } from "@nestjs/swagger";
 import { FastifyRequest } from "fastify";
 import { concatAll, lastValueFrom, map, Observable, toArray } from "rxjs";
 
 import { Base64UrlImage, ImagesService } from "./images.service";
 import { bufferToBase64Url } from '../utils/buffer';
+import { ImageQuery } from "./dto";
 
 @ApiTags('Images')
 @Controller('images')
@@ -13,7 +14,8 @@ export class ImagesController {
   }
 
   @Get()
-  public downloadImages(): Observable<Base64UrlImage[]> {
+  public downloadImages(@Query() imageQuery: ImageQuery): Observable<Base64UrlImage[]> {
+    console.log(imageQuery);
     return this.imagesService.downloadImages().pipe(
       concatAll(),
       map(image => ({
