@@ -38,7 +38,7 @@ export class CompaniesComponent implements OnInit {
   }
 
   onDeleteCompany(company: CompaniesTypes.Company) {
-    this.store.dispatch(CompaniesPageActions.deleteCompany({ payload: { id: company.id } }))
+    this.store.dispatch(CompaniesPageActions.deleteCompany({ payload: { where: { id: company.id } } }));
   }
 
   private findCompanies() {

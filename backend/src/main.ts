@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import fastifyCookie from "@fastify/cookie";
+import fastifyMultipart from "@fastify/multipart";
 import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
@@ -28,6 +29,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
 
   await app.register(fastifyCookie);
+  await app.register(fastifyMultipart, { limits: { files: 1 } });
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);

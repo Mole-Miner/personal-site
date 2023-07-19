@@ -12,4 +12,6 @@ export * from '@angular/material/dialog';
 export * from '@angular/material/progress-spinner';
 export * from '@angular/material/menu';
 export * from '@angular/material/icon';
+export * from '@angular/material/datepicker';
+export * from '@angular/material/core';
 export * from './lib/personal-site-material.module';
