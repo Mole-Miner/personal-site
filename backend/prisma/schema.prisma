@@ -85,6 +85,8 @@ model Accomplishment {
 
   experience   Experience @relation(fields: [experienceId], references: [id])
   experienceId String     @map("experience_id") @db.Uuid
+
+  @@map("accomplishment")
 }
 
 model Experience {

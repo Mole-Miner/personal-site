@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Image, Prisma } from "@prisma/client";
-import { from, Observable } from "rxjs";
+import { Image, Prisma } from '@prisma/client';
+import { from, Observable } from 'rxjs';
 
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from '../prisma/prisma.service';
 
 export interface Base64UrlImage extends Omit<Image, 'content'> {
   content: string;
@@ -10,8 +10,7 @@ export interface Base64UrlImage extends Omit<Image, 'content'> {
 
 @Injectable()
 export class ImagesService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   public downloadImages(): Observable<Image[]> {
     return from(this.prisma.image.findMany());

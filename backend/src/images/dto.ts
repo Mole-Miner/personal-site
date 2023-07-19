@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Matches } from "class-validator";
+import { IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class ImageQuery {
   @IsNotEmpty()
@@ -7,6 +7,6 @@ export class ImageQuery {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/\.(buffer|base64url)/ig)
+  @Matches(/\.(buffer|base64url)/gi)
   represent: 'buffer' | 'base64url';
 }

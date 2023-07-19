@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { from, Observable } from "rxjs";
-import { Company, Prisma } from "@prisma/client";
+import { from, Observable } from 'rxjs';
+import { Company, Prisma } from '@prisma/client';
 
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CompaniesService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   findCompanies(): Observable<Company[]> {
     return from(this.prisma.company.findMany());
@@ -20,8 +19,11 @@ export class CompaniesService {
   createCompany(data: Prisma.CompanyCreateInput): Observable<Company> {
     return from(this.prisma.company.create({ data }));
   }
-  
-  updateCompany(id: string, data: Prisma.CompanyUpdateWithoutExperiencesInput): Observable<Company> {
+
+  updateCompany(
+    id: string,
+    data: Prisma.CompanyUpdateWithoutExperiencesInput,
+  ): Observable<Company> {
     return from(this.prisma.company.update({ where: { id }, data }));
   }
 

@@ -1,14 +1,15 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { Observable } from "rxjs";
-import { Experience } from "@prisma/client";
+import { ApiTags } from '@nestjs/swagger';
+import { Observable } from 'rxjs';
+import { Experience } from '@prisma/client';
 
-import { ExperienceService } from "./experience.service";
-import { CreateExperienceDto } from "./dto/create-experience.dto";
+import { ExperienceService } from './experience.service';
+import { CreateExperienceDto } from './dto/create-experience.dto';
 
+@ApiTags('Experience')
 @Controller('experience')
 export class ExperienceController {
-  constructor(private readonly experienceService: ExperienceService) {
-  }
+  constructor(private readonly experienceService: ExperienceService) {}
 
   @Get()
   findExperienceList(): Observable<Experience[]> {

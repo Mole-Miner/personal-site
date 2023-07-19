@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { exhaustMap, from, Observable } from "rxjs";
-import { Experience, Prisma } from "@prisma/client";
+import { exhaustMap, from, Observable } from 'rxjs';
+import { Experience, Prisma } from '@prisma/client';
 
-import { PrismaService } from "../prisma/prisma.service";
-import { CreateExperienceDto } from "./dto/create-experience.dto";
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateExperienceDto } from './dto/create-experience.dto';
 
 @Injectable()
 export class ExperienceService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   findExperienceList(): Observable<Experience[]> {
-    return from(this.prisma.experience.findMany({ include: { company: true, images: true } }));
+    return from(
+      this.prisma.experience.findMany({
+        include: { company: true, images: true },
+      }),
+    );
   }
 
   findExperienceById(id: string): Observable<Experience> {
@@ -20,32 +23,39 @@ export class ExperienceService {
 
   createExperience(dto: CreateExperienceDto): Observable<Experience> {
     const { companyId, imageId, ...rest } = dto;
-    const createExperience$ = from(this.prisma.experience.create({
-      data: {
-        ...rest,
-        company: { connect: { id: companyId } },
-      }
-    }));
+    const createExperience$ = from(
+      this.prisma.experience.create({
+        data: {
+          ...rest,
+          company: { connect: { id: companyId } },
+        },
+      }),
+    );
     return createExperience$.pipe(
       exhaustMap(({ id: experienceId }) => {
-        return from(this.prisma.experience.update({
-          where: { id: experienceId },
-          data: {
-            images: {
-              connect: {
-                experienceId_imageId: {
-                  imageId,
-                  experienceId
-                }
-              }
-            }
-          }
-        }));
-      })
+        return from(
+          this.prisma.experience.update({
+            where: { id: experienceId },
+            data: {
+              images: {
+                connect: {
+                  experienceId_imageId: {
+                    imageId,
+                    experienceId,
+                  },
+                },
+              },
+            },
+          }),
+        );
+      }),
     );
   }
 
-  updateExperience(id: string, data: Prisma.ExperienceUncheckedUpdateInput): Observable<Experience> {
+  updateExperience(
+    id: string,
+    data: Prisma.ExperienceUncheckedUpdateInput,
+  ): Observable<Experience> {
     return from(this.prisma.experience.update({ where: { id }, data }));
   }
 
