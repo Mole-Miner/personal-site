@@ -75,6 +75,18 @@ model Company {
   @@map("company")
 }
 
+model Accomplishment {
+  id      String @id @default(uuid()) @db.Uuid
+  content String
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId String     @map("experience_id") @db.Uuid
+}
+
 model Experience {
   id       String @id @default(uuid()) @db.Uuid
   position String
@@ -85,10 +97,10 @@ model Experience {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  company   Company @relation(fields: [companyId], references: [id])
-  companyId String  @map("company_id") @db.Uuid
-
-  images ImagesOnExperiences[]
+  company         Company               @relation(fields: [companyId], references: [id])
+  companyId       String                @map("company_id") @db.Uuid
+  accomplishments Accomplishment[]
+  images          ImagesOnExperiences[]
 
   @@map("experience")
 }
