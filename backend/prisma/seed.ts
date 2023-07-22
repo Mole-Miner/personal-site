@@ -122,7 +122,7 @@ async function main() {
         });
       }
     }
-    return { experiences: await prisma.experience.findMany(), accomplishments: await prisma.accomplishment.findMany() };
+    return { experiences: await prisma.experience.count(), accomplishments: await prisma.accomplishment.count() };
   });
 
   console.log('experiences ', experiences);

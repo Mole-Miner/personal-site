@@ -9,15 +9,15 @@ import { CreateExperienceDto } from './dto/create-experience.dto';
 export class ExperienceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findExperienceList(): Observable<Experience[]> {
+  public findExperienceList(): Observable<Experience[]> {
     return from(
       this.prisma.experience.findMany({
-        include: { company: true, images: true },
+        include: { company: true, accomplishments: true },
       }),
     );
   }
 
-  findExperienceById(id: string): Observable<Experience> {
+  public findExperienceById(id: string): Observable<Experience> {
     return from(this.prisma.experience.findUnique({ where: { id } }));
   }
 
@@ -52,14 +52,14 @@ export class ExperienceService {
     );
   }
 
-  updateExperience(
+  public updateExperience(
     id: string,
     data: Prisma.ExperienceUncheckedUpdateInput,
   ): Observable<Experience> {
     return from(this.prisma.experience.update({ where: { id }, data }));
   }
 
-  deleteExperience(id: string): Observable<Experience> {
+  public deleteExperience(id: string): Observable<Experience> {
     return from(this.prisma.experience.delete({ where: { id } }));
   }
 }
