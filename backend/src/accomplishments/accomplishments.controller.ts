@@ -37,7 +37,7 @@ export class AccomplishmentsController {
   @Post()
   public createAccomplishment(
     @Body() dto: CreateAccomplishmentDto,
-  ): Observable<Accomplishment> {
+  ): Observable<string> {
     return this.accomplishmentsService.createAccomplishment(dto);
   }
 
@@ -45,14 +45,12 @@ export class AccomplishmentsController {
   public updateAccomplishment(
     @Param('id') id: string,
     @Body() dto: UpdateAccomplishmentDto,
-  ): Observable<Accomplishment> {
+  ): Observable<string> {
     return this.accomplishmentsService.updateAccomplishment(id, dto);
   }
 
   @Delete(':id')
-  public deleteAccomplishment(
-    @Param('id') id: string,
-  ): Observable<Accomplishment> {
+  public deleteAccomplishment(@Param('id') id: string): Observable<string> {
     return this.accomplishmentsService.deleteAccomplishment(id);
   }
 }

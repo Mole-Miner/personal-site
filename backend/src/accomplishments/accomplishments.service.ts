@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Accomplishment } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -20,7 +20,7 @@ export class AccomplishmentsService {
 
   public createAccomplishment(
     dto: CreateAccomplishmentDto,
-  ): Observable<Accomplishment> {
+  ): Observable<string> {
     return from(
       this.prisma.accomplishment.create({
         data: {
@@ -28,13 +28,13 @@ export class AccomplishmentsService {
           experience: { connect: { id: dto.experienceId } },
         },
       }),
-    );
+    ).pipe(map((accomplishment) => accomplishment.id));
   }
 
   public updateAccomplishment(
     id: string,
     dto: UpdateAccomplishmentDto,
-  ): Observable<Accomplishment> {
+  ): Observable<string> {
     return from(
       this.prisma.accomplishment.update({
         where: { id },
@@ -43,10 +43,12 @@ export class AccomplishmentsService {
           experience: { connect: { id: dto.experienceId } },
         },
       }),
-    );
+    ).pipe(map((accomplishment) => accomplishment.id));
   }
 
-  public deleteAccomplishment(id: string): Observable<Accomplishment> {
-    return from(this.prisma.accomplishment.delete({ where: { id } }));
+  public deleteAccomplishment(id: string): Observable<string> {
+    return from(this.prisma.accomplishment.delete({ where: { id } })).pipe(
+      map((accomplishment) => accomplishment.id),
+    );
   }
 }

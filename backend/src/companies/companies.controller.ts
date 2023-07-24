@@ -21,30 +21,30 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Get()
-  findCompanies(): Observable<Company[]> {
+  public findCompanies(): Observable<Company[]> {
     return this.companiesService.findCompanies();
   }
 
   @Get(':id')
-  findCompanyById(@Param('id') id: string): Observable<Company> {
+  public findCompanyById(@Param('id') id: string): Observable<Company> {
     return this.companiesService.findCompanyById(id);
   }
 
   @Post()
-  createCompany(@Body() dto: CreateCompanyDto): Observable<Company> {
+  public createCompany(@Body() dto: CreateCompanyDto): Observable<string> {
     return this.companiesService.createCompany(dto);
   }
 
   @Patch(':id')
-  updateCompany(
+  public updateCompany(
     @Param('id') id: string,
     @Body() dto: UpdateCompanyDto,
-  ): Observable<Company> {
+  ): Observable<string> {
     return this.companiesService.updateCompany(id, dto);
   }
 
   @Delete(':id')
-  deleteCompany(@Param('id') id: string): Observable<Company> {
+  public deleteCompany(@Param('id') id: string): Observable<string> {
     return this.companiesService.deleteCompany(id);
   }
 }
