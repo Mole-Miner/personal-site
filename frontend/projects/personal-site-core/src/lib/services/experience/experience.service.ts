@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { RestApiService } from "../rest-api.service";
-import { ExperienceTypes } from "../../types";
+import { Experience } from "../../types";
 
 @Injectable()
-export class ExperienceService extends RestApiService<ExperienceTypes.Experience> {
+export class ExperienceService extends RestApiService<Experience> {
 
   constructor() {
     super('experience');
@@ -14,19 +14,19 @@ export class ExperienceService extends RestApiService<ExperienceTypes.Experience
     return this.findMany();
   }
 
-  findExperience(payload: ExperienceTypes.FindExperience) {
-    return this.findOne(payload);
+  findExperience(experienceId: string) {
+    return this.findOne({ where: { id: experienceId } });
   }
 
-  createExperience(payload: ExperienceTypes.CreateExperience) {
-    return this.create(payload);
+  createExperience(experience: Experience) {
+    return this.create({ data: experience });
   }
 
-  updateExperience(payload: ExperienceTypes.UpdateExperience) {
-    return this.update(payload);
+  updateExperience(experience: Experience) {
+    return this.update({ where: { id: experience.id }, data:  experience });
   }
 
-  deleteExperience(payload: ExperienceTypes.DeleteExperience) {
-    return this.delete(payload);
+  deleteExperience(experienceId: string) {
+    return this.delete({ where: { id: experienceId } });
   }
 }

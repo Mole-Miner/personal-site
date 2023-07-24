@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { PersonalSiteMaterialModule } from 'personal-site-material';
-import { CompaniesTypes } from "personal-site-core";
+import { Company } from "personal-site-core";
 import { DialogBodyTemplateDirective, DialogComponent, DialogHeaderTemplateDirective } from "personal-site-ui";
 
 import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
@@ -24,7 +24,7 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   styleUrls: [ './company-editor-dialog.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CompanyEditorDialogComponent extends AbstractEditorDialog<CompaniesTypes.Company> implements OnInit {
+export class CompanyEditorDialogComponent extends AbstractEditorDialog<Company> implements OnInit {
   constructor() {
     super();
   }

@@ -20,9 +20,7 @@ export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.Base
   editorDialog!: Type<AbstractEditorDialog<T>>;
 
   @Input()
-  set dataSource(source$: Observable<T[]>) {
-    this.source$ = source$;
-  }
+  dataSource!: T[];
 
   @Input()
   set displayedColumns(columns: string[]) {
@@ -42,7 +40,7 @@ export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.Base
   @Output()
   delete = new EventEmitter();
 
-  source$!: Observable<T[]>;
+
   columns!: string[];
   columnsWithMenu!: string[];
 

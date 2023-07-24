@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Subject, takeUntil } from "rxjs";
 
-import { ExperienceTypes } from "personal-site-core";
+import { Company, Experience } from "personal-site-core";
 import { PersonalSiteMaterialModule } from 'personal-site-material';
 import { DialogBodyTemplateDirective, DialogComponent, DialogHeaderTemplateDirective } from 'personal-site-ui';
 
@@ -24,11 +25,20 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   styleUrls: [ './experience-editor-dialog.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExperienceEditorDialogComponent extends AbstractEditorDialog<ExperienceTypes.Experience> implements OnInit, OnDestroy {
-  image!: File;
+export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experience> implements OnInit, OnDestroy {
   imageSource!: string;
+  companies!: Company[];
+
+  private image!: File;
+  private readonly destroy$ = new Subject<void>();
+
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
+    console.log(this.entity);
+    this.loadCompanies();
     this.setupForm();
   }
 
@@ -36,6 +46,8 @@ export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experi
     if (this.imageSource) {
       URL.revokeObjectURL(this.imageSource);
     }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setupForm(): void {
@@ -57,33 +69,39 @@ export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experi
   }
 
   override async onSave() {
-    const fileAsByteArray = (file: File): Promise<ArrayBuffer> => {
+    const fileAsBase64 = (file: File): Promise<string> => {
       return new Promise((resolve) => {
         const fileReader = new FileReader();
         fileReader.onloadend = function () {
-          resolve(fileReader.result as ArrayBuffer);
+          resolve(fileReader.result as string);
         }
-        fileReader.readAsArrayBuffer(file);
+        fileReader.readAsDataURL(file);
       });
     };
 
-    const imgBuff = await fileAsByteArray(this.image);
+    const img = await this.image.arrayBuffer();
     const formData = this.form.getRawValue() as any;
 
-    const result = {
-      data: {
-        position: formData.position,
-        start: new Date(formData.start).toISOString(),
-        end: new Date(formData.end).toISOString(),
-        companyId: formData.companyId,
-        image: {
-          name: this.image.name,
-          type: this.image.type,
-          data: imgBuff
-        }
-      }
-    } as ExperienceTypes.CreateExperience;
+    console.log(new Uint8Array(img));
 
-    this.close(result);
+    // const result = {
+    //   data: {
+    //     position: formData.position,
+    //     start: new Date(formData.start).toISOString(),
+    //     end: new Date(formData.end).toISOString(),
+    //     companyId: formData.companyId,
+    //     image: {
+    //       name: this.image.name,
+    //       type: this.image.type,
+    //       data: new Int32Array(img)
+    //     }
+    //   }
+    // } as ExperienceTypes.CreateExperience;
+
+    this.close();
+  }
+
+  private loadCompanies() {
+
   }
 }

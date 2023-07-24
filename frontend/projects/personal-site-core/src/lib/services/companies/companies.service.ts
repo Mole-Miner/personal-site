@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { RestApiService } from "../rest-api.service";
-import { CompaniesTypes } from "../../types";
+import { Company } from "../../types";
 
 @Injectable()
-export class CompaniesService extends RestApiService<CompaniesTypes.Company> {
+export class CompaniesService extends RestApiService<Company> {
   constructor() {
     super('companies');
   }
@@ -13,19 +13,19 @@ export class CompaniesService extends RestApiService<CompaniesTypes.Company> {
     return this.findMany();
   }
 
-  findCompany(payload: CompaniesTypes.FindCompany) {
-    return this.findOne(payload);
+  findCompany(companyId: string){
+    return this.findOne({ where: { id: companyId } });
   }
 
-  createCompany(payload: CompaniesTypes.CreateCompany) {
-    return this.create(payload);
+  createCompany(company: Company){
+    return this.create({ data: company });
   }
 
-  updateCompany(payload: CompaniesTypes.UpdateCompany) {
-    return this.update(payload);
+  updateCompany(company: Company) {
+    return this.update({ where: { id: company.id }, data: company });
   }
 
-  deleteCompany(payload: CompaniesTypes.DeleteCompany) {
-    return this.delete(payload);
+  deleteCompany(companyId: string) {
+    return this.delete({ where: { id: companyId } });
   }
 }

@@ -6,8 +6,8 @@ import { API_URL } from "../tokens";
 import { EntityTypes } from "../types";
 
 export class RestApiService<T extends EntityTypes.BaseEntity = EntityTypes.BaseEntity> {
-  private readonly httpClient: HttpClient;
-  private readonly url: string;
+  protected readonly httpClient: HttpClient;
+  protected readonly url: string;
 
   constructor(feature: string) {
     this.httpClient = inject(HttpClient);
@@ -19,19 +19,19 @@ export class RestApiService<T extends EntityTypes.BaseEntity = EntityTypes.BaseE
     return this.httpClient.get<T[]>(this.url);
   }
 
-  protected findOne({ where }: EntityTypes.FindEntity): Observable<T> {
-    return this.httpClient.get<T>(`${ this.url }/${ where.id }`);
+  protected findOne(args: EntityTypes.FindEntity): Observable<T> {
+    return this.httpClient.get<T>(`${ this.url }/${ args.where.id }`);
   }
 
-  protected create({ data }: EntityTypes.CreateEntity<T>): Observable<T> {
-    return this.httpClient.post<T>(this.url, data);
+  protected create(args: EntityTypes.CreateEntity<T>): Observable<T> {
+    return this.httpClient.post<T>(this.url, args.data);
   }
 
-  protected update({ where, data }: EntityTypes.UpdateEntity<T>): Observable<T> {
-    return this.httpClient.patch<T>(`${ this.url }/${ where.id }`, data);
+  protected update(args: EntityTypes.UpdateEntity<T>): Observable<T> {
+    return this.httpClient.patch<T>(`${ this.url }/${ args.where.id }`, args.data);
   }
 
-  protected delete({ where }: EntityTypes.DeleteEntity): Observable<T> {
-    return this.httpClient.delete<T>(`${ this.url }/${ where.id }`);
+  protected delete(args: EntityTypes.DeleteEntity): Observable<T> {
+    return this.httpClient.delete<T>(`${ this.url }/${ args.where.id }`);
   }
 }

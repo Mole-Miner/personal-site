@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <ng-container *ngIf="(source$ | async) as dataSource">
+  <ng-container *ngIf="dataSource">
     <table class="editor__body" mat-table [dataSource]="dataSource">
       <ng-container [matColumnDef]="column" *ngFor="let column of columns">
         <th mat-header-cell *matHeaderCellDef>{{column}}</th>

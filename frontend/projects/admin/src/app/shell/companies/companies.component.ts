@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
 
-import { CompaniesPageActions, CompaniesSelectors, CompaniesState, CompaniesTypes } from "personal-site-core";
+import { CompaniesService, Company } from "personal-site-core";
 
 import { EditorComponent } from "../editor/editor.component";
 import { CompanyEditorDialogComponent } from "./company-editor-dialog/company-editor-dialog.component";
@@ -17,31 +15,33 @@ import { CompanyEditorDialogComponent } from "./company-editor-dialog/company-ed
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
-  readonly companies$: Observable<CompaniesTypes.Company[]> = this.store.select(CompaniesSelectors.selectCompanies);
-  readonly tableColumns = [ 'name' ];
-
+  companies!: Company[];
+  readonly tableColumns = [ 'id', 'name' ];
   readonly companyEditorDialog: Type<CompanyEditorDialogComponent> = CompanyEditorDialogComponent;
 
-  constructor(private readonly store: Store<CompaniesState>) {
+  constructor(private readonly companiesService: CompaniesService, private readonly cdr: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    this.findCompanies();
+  ngOnInit(): void {
+    this.loadCompanies();
   }
 
-  onCreateCompany(company: CompaniesTypes.CreateCompany) {
-    this.store.dispatch(CompaniesPageActions.createCompany({ payload: company }));
+  onCreateCompany(company: Company): void {
+    this.companiesService.createCompany(company).subscribe(() => this.loadCompanies());
   }
 
-  onUpdateCompany(company: CompaniesTypes.UpdateCompany) {
-    this.store.dispatch(CompaniesPageActions.updateCompany({ payload: company }));
+  onUpdateCompany(company: Company): void {
+    this.companiesService.updateCompany(company).subscribe(() => this.loadCompanies());
   }
 
-  onDeleteCompany(company: CompaniesTypes.Company) {
-    this.store.dispatch(CompaniesPageActions.deleteCompany({ payload: { where: { id: company.id } } }));
+  onDeleteCompany(company: Company): void {
+    this.companiesService.deleteCompany(company.id).subscribe(() => this.loadCompanies());
   }
 
-  private findCompanies() {
-    this.store.dispatch(CompaniesPageActions.loadCompanies());
+  private loadCompanies(): void {
+    this.companiesService.findCompanies().subscribe(companies => {
+      this.companies = companies;
+      this.cdr.detectChanges();
+    });
   }
 }
