@@ -7,6 +7,11 @@ import { MatDialog, PersonalSiteMaterialModule } from "personal-site-material";
 
 import { AbstractEditorDialog, EditorDialogData } from "./abstract-editor-dialog";
 
+export interface EditorTableColumns {
+  columns: string[];
+  isDateColumns: boolean;
+}
+
 @Component({
   selector: 'app-editor',
   standalone: true,
@@ -23,8 +28,11 @@ export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.Base
   dataSource!: T[];
 
   @Input()
-  set displayedColumns(columns: string[]) {
-    this.columns = [ ...columns, 'createdAt', 'updatedAt', 'deletedAt' ];
+  set displayedColumns(options: EditorTableColumns) {
+    this.columns = [ ...options.columns ];
+    if (options.isDateColumns) {
+      this.columns = [ ...this.columns, 'createdAt', 'updatedAt', 'deletedAt' ];
+    }
     this.columnsWithMenu = [ ...this.columns, 'menu' ];
   }
 

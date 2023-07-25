@@ -25,15 +25,11 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyEditorDialogComponent extends AbstractEditorDialog<Company> implements OnInit {
-  constructor() {
-    super();
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.setupForm();
   }
 
-  setupForm() {
+  setupForm(): void {
     this.form.setControl('name', new FormControl(null, [ Validators.required ]));
     this.form.setControl('preview', new FormControl(null, [ Validators.required ]));
     if (this.isUpdate) {

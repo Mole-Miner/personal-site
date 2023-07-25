@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 import { Experience, ExperienceService } from "personal-site-core";
 
-import { EditorComponent } from "../editor/editor.component";
+import { EditorComponent, EditorTableColumns } from "../editor/editor.component";
 import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/experience-editor-dialog.component";
 
 @Component({
@@ -16,7 +16,10 @@ import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/expe
 })
 export class ExperienceComponent implements OnInit {
   experienceList!: Experience[];
-  readonly tableColumns = [ 'position', 'start', 'end' ];
+  readonly tableColumns: EditorTableColumns = {
+    columns: [ 'position', 'start', 'end' ],
+    isDateColumns: false
+  };
   readonly experienceEditorDialog: Type<ExperienceEditorDialogComponent> = ExperienceEditorDialogComponent;
 
   constructor(private readonly experienceService: ExperienceService) {

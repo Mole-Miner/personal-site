@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CompaniesService, Company } from "personal-site-core";
 
-import { EditorComponent } from "../editor/editor.component";
+import { EditorComponent, EditorTableColumns } from "../editor/editor.component";
 import { CompanyEditorDialogComponent } from "./company-editor-dialog/company-editor-dialog.component";
 
 @Component({
@@ -16,7 +16,10 @@ import { CompanyEditorDialogComponent } from "./company-editor-dialog/company-ed
 })
 export class CompaniesComponent implements OnInit {
   companies!: Company[];
-  readonly tableColumns = [ 'id', 'name' ];
+  readonly tableColumns: EditorTableColumns = {
+    columns: [ 'id', 'name' ],
+    isDateColumns: false
+  };
   readonly companyEditorDialog: Type<CompanyEditorDialogComponent> = CompanyEditorDialogComponent;
 
   constructor(private readonly companiesService: CompaniesService, private readonly cdr: ChangeDetectorRef) {
