@@ -11,8 +11,8 @@ export class ImagesService extends RestApiService<Image> {
     super('images');
   }
 
-  downloadImages(): Observable<ReadableStream[]> {
-    return this.httpClient.get<ReadableStream[]>(this.url);
+  downloadImages(): Observable<Base64UrlImage[]> {
+    return this.httpClient.get<Base64UrlImage[]>(this.url);
   }
 
   downloadImage(imageId: string): Observable<Base64UrlImage> {

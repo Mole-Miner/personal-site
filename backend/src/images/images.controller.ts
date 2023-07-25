@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Req, StreamableFile } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FastifyRequest } from 'fastify';
 import { concatMap, from, Observable } from 'rxjs';
@@ -12,19 +12,19 @@ export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Get()
-  public downloadImages(): Observable<any[]> {
-    return this.imagesService.downloadImages();
+  public findImages(): Observable<Base64UrlImage[]> {
+    return this.imagesService.findImagesImages();
   }
 
   @Get(':id')
-  public downloadImage(@Param('id') id: string): Observable<Base64UrlImage> {
-    return this.imagesService.downloadImage(id);
+  public findImageById(@Param('id') id: string): Observable<Base64UrlImage> {
+    return this.imagesService.findImageById(id);
   }
 
   @Post()
-  public uploadImage(@Req() req: FastifyRequest): Observable<Image> {
+  public createImage(@Req() req: FastifyRequest): Observable<Image> {
     return from(req.file()).pipe(
-      concatMap((file) => this.imagesService.uploadImage(file)),
+      concatMap((file) => this.imagesService.createImage(file)),
     );
   }
 

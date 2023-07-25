@@ -1,10 +1,7 @@
-import { Injectable, StreamableFile } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Image } from '@prisma/client';
-import { concatAll, concatMap, from, map, Observable, of, toArray } from 'rxjs';
+import { concatAll, concatMap, from, map, Observable, toArray } from 'rxjs';
 import { MultipartFile } from '@fastify/multipart';
-import {  } from 'node:fs';
-import { Blob, File } from 'node:buffer';
-import { Readable } from 'node:stream';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { bufferToBase64Url } from '../utils/buffer';
@@ -17,29 +14,29 @@ export interface Base64UrlImage extends Omit<Image, 'content'> {
 export class ImagesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public downloadImages(): Observable<any[]> {
+  public findImagesImages(): Observable<Base64UrlImage[]> {
     return from(this.prisma.image.findMany()).pipe(
       concatAll(),
       concatMap((image) => {
         return from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => new Blob([image.content], {type: image.type})),
+          map((base64Url) => ({ ...image, content: `data:${image.type};base64,${base64Url}` })),
         );
       }),
       toArray(),
     );
   }
 
-  public downloadImage(id: string): Observable<Base64UrlImage> {
+  public findImageById(id: string): Observable<Base64UrlImage> {
     return from(this.prisma.image.findUnique({ where: { id } })).pipe(
       concatMap((image) =>
         from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => ({ ...image, content: base64Url })),
+          map((base64Url) => ({ ...image, content: `data:${image.type};base64,${base64Url}` })),
         ),
       ),
     );
   }
 
-  public uploadImage(file: MultipartFile): Observable<Image> {
+  public createImage(file: MultipartFile): Observable<Image> {
     return from(file.toBuffer()).pipe(
       concatMap((buffer) => {
         return from(

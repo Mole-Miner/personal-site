@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { CommonModule } from '@angular/common';
 
 import { Base64UrlImage, ImagesService } from "personal-site-core";
-import { concatAll, map } from "rxjs";
 
 @Component({
   selector: 'app-images',
@@ -23,19 +22,9 @@ export class ImagesComponent implements OnInit {
   }
 
   private loadImages(): void {
-    this.imagesService
-      .downloadImages()
-      .pipe(
-        concatAll(),
-        map((image: any) => {
-          console.log(image.stream.getReader());
-          return image;
-        }),
-      )
-      .subscribe((images) => {
-        // this.images = images;
-        // this.cdr.detectChanges();
-        // console.log(this.images);
-      });
+    this.imagesService.downloadImages().subscribe((images) => {
+      this.images = images;
+      this.cdr.detectChanges();
+    });
   }
 }
