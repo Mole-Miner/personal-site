@@ -28,8 +28,16 @@ export class ImagesComponent implements OnInit {
     this.loadImages();
   }
 
+  onCreateImage(image: File): void {
+    this.imagesService.createImage(image).subscribe(() => this.loadImages());
+  }
+
+  onDeleteImage(image: Base64UrlImage): void {
+    this.imagesService.deleteImage(image.id).subscribe(() => this.loadImages());
+  }
+
   private loadImages(): void {
-    this.imagesService.downloadImages().subscribe((images) => {
+    this.imagesService.findImages().subscribe((images) => {
       this.images = images;
       this.cdr.detectChanges();
     });

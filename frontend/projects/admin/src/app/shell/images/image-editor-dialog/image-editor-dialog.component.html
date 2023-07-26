@@ -3,8 +3,15 @@
     <h1>Image editor</h1>
   </ng-container>
 
-  <ng-container *uiDialogBody>
-    <section [formGroup]="form" class="image">
+  <ng-container *uiDialogBody  class="image">
+    <img [src]="entity?.content ?? imagesSource" alt="Image content" class="image__content">
+
+    <div>
+      <input type="file" #fileChooser (click)="fileChooser.value = ''" (change)="onSelectFile($event)" style="display: none">
+      <button mat-raised-button color="primary" (click)="selectFile()">Select file</button>
+    </div>
+
+    <section [formGroup]="form">
       <mat-form-field *ngIf="isUpdate" class="image__input" appearance="fill">
         <mat-label>Image id</mat-label>
         <input matInput formControlName="id">

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { Base64UrlImage } from "personal-site-core";
 import { PersonalSiteMaterialModule } from "personal-site-material";
@@ -24,13 +24,19 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   styleUrls: [ './image-editor-dialog.component.scss' ]
 })
 export class ImageEditorDialogComponent extends AbstractEditorDialog<Base64UrlImage> implements OnInit {
+  @ViewChild('fileChooser', { static: false })
+  readonly fileChooser!: ElementRef<HTMLInputElement>;
+
+  image!: File;
+  imagesSource!: string;
+
   ngOnInit(): void {
     this.setupForm();
   }
 
   setupForm(): void {
-    this.form.setControl('name', new FormControl(null, [ Validators.required ]));
-    this.form.setControl('type', new FormControl(null, [ Validators.required ]));
+    this.form.setControl('name', new FormControl({ value: null, disabled: true }));
+    this.form.setControl('type', new FormControl({ value: null, disabled: true }));
     if (this.isUpdate) {
       this.form.setControl('id', new FormControl({ value: null, disabled: true }));
       this.form.setValue({
@@ -39,5 +45,27 @@ export class ImageEditorDialogComponent extends AbstractEditorDialog<Base64UrlIm
         type: this.entity?.type
       });
     }
+  }
+
+  selectFile(): void {
+    this.fileChooser.nativeElement.click();
+  }
+
+  onSelectFile(event: Event): void {
+    const image = (event.target as HTMLInputElement).files![0];
+    const fr = new FileReader();
+    fr.onload = () => {
+      this.form.patchValue({
+        name: image.name,
+        type: image.type,
+      });
+      this.image = image;
+      this.imagesSource = fr.result as string;
+    }
+    fr.readAsDataURL(image);
+  }
+
+  override close(): void {
+    super.close(this.image);
   }
 }

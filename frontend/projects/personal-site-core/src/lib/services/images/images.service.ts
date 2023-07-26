@@ -11,17 +11,17 @@ export class ImagesService extends RestApiService<Image> {
     super('images');
   }
 
-  downloadImages(): Observable<Base64UrlImage[]> {
+  findImages(): Observable<Base64UrlImage[]> {
     return this.httpClient.get<Base64UrlImage[]>(this.url);
   }
 
-  downloadImage(imageId: string): Observable<Base64UrlImage> {
+  findImage(imageId: string): Observable<Base64UrlImage> {
     return this.httpClient.get<Base64UrlImage>(`${this.url}/${imageId}`);
   }
 
-  uploadImage(file: File): Observable<Image> {
+  createImage(image: File): Observable<Image> {
     const formData = new FormData();
-    formData.set('file', file);
+    formData.set('file', image);
     return this.httpClient.post<Image>(`${this.url}`, formData);
   }
 
