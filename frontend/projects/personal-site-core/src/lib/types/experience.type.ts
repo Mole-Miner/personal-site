@@ -1,10 +1,15 @@
 import { EntityTypes } from "./entity.type";
-import { Image } from "./images.type";
 
 export interface Experience extends EntityTypes.BaseEntity {
   position: string;
   start: string;
   end: string
   companyId: string;
-  image: Image;
+  imageId: string;
+}
+
+export interface ExperienceQuery extends EntityTypes.QueryEntity {
+  company: boolean;
+  accomplishments: boolean;
+  image: boolean;
 }

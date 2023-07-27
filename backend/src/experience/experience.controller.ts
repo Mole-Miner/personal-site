@@ -22,38 +22,38 @@ import { UpdateExperienceDto } from './dto/update-experience.dto';
 export class ExperienceController {
   constructor(private readonly experienceService: ExperienceService) {}
 
-  @Get()
-  public findExperienceList(
-    @Query() query: ExperienceQuery,
-  ): Observable<Experience[]> {
-    return this.experienceService.findExperienceList(query);
-  }
-
-  @Get(':id')
-  public findExperienceById(
-    @Param('id') id: string,
-    @Query() query: ExperienceQuery,
-  ): Observable<Experience> {
-    return this.experienceService.findExperienceById(id, query);
-  }
-
+  // @Get()
+  // public findExperienceList(
+  //   @Query() query: ExperienceQuery,
+  // ): Observable<Experience[]> {
+  //   return this.experienceService.findExperienceList(query);
+  // }
+  //
+  // @Get(':id')
+  // public findExperienceById(
+  //   @Param('id') id: string,
+  //   @Query() query: ExperienceQuery,
+  // ): Observable<Experience> {
+  //   return this.experienceService.findExperienceById(id, query);
+  // }
+  //
   @Post()
   public createExperience(
     @Body() dto: CreateExperienceDto,
-  ): Observable<string> {
+  ): Observable<Experience> {
     return this.experienceService.createExperience(dto);
   }
-
-  @Patch(':id')
-  public updateExperience(
-    @Param('id') id: string,
-    dto: UpdateExperienceDto,
-  ): Observable<string> {
-    return this.experienceService.updateExperience(id, dto);
-  }
-
-  @Delete(':id')
-  public deleteExperience(@Param('id') id: string): Observable<string> {
-    return this.experienceService.deleteExperience(id);
-  }
+  //
+  // @Patch(':id')
+  // public updateExperience(
+  //   @Param('id') id: string,
+  //   dto: UpdateExperienceDto,
+  // ): Observable<Experience> {
+  //   return this.experienceService.updateExperience(id, dto);
+  // }
+  //
+  // @Delete(':id')
+  // public deleteExperience(@Param('id') id: string): Observable<Experience> {
+  //   return this.experienceService.deleteExperience(id);
+  // }
 }

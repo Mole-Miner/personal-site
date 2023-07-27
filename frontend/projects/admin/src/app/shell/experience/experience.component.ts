@@ -1,8 +1,7 @@
 import { Component, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from "rxjs";
 
-import { Experience, ExperienceService } from "personal-site-core";
+import { CompaniesService, Company, Experience, ExperienceService } from "personal-site-core";
 
 import { EditorComponent, EditorTableColumns } from "../editor/editor.component";
 import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/experience-editor-dialog.component";
@@ -16,6 +15,7 @@ import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/expe
 })
 export class ExperienceComponent implements OnInit {
   experienceList!: Experience[];
+
   readonly tableColumns: EditorTableColumns = {
     columns: [ 'position', 'start', 'end' ],
     isDateColumns: false
@@ -26,7 +26,7 @@ export class ExperienceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.findExperienceList();
   }
 
   onCreateExperience(experience: Experience) {
@@ -39,6 +39,9 @@ export class ExperienceComponent implements OnInit {
   onDeleteExperience(experience: Experience) {
   }
 
-  private findExperienceList() {
+  private findExperienceList(): void {
+    this.experienceService.findExperienceList().subscribe((experienceList) => {
+      this.experienceList = experienceList;
+    });
   }
 }

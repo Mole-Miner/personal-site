@@ -12,6 +12,10 @@ export namespace EntityTypes {
 
   export type PartialEntity<T extends BaseEntity = BaseEntity> = Partial<PureEntity<T>>;
 
+  export interface QueryEntity {
+    [p: string]: string | number | boolean;
+  }
+
   export interface FindEntity {
     where: EntityId;
   }

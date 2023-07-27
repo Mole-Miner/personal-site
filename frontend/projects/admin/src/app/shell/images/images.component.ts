@@ -25,18 +25,18 @@ export class ImagesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadImages();
+    this.findImages();
   }
 
   onCreateImage(image: File): void {
-    this.imagesService.createImage(image).subscribe(() => this.loadImages());
+    this.imagesService.createImage(image).subscribe(() => this.findImages());
   }
 
   onDeleteImage(image: Base64UrlImage): void {
-    this.imagesService.deleteImage(image.id).subscribe(() => this.loadImages());
+    this.imagesService.deleteImage(image.id).subscribe(() => this.findImages());
   }
 
-  private loadImages(): void {
+  private findImages(): void {
     this.imagesService.findImages().subscribe((images) => {
       this.images = images;
       this.cdr.detectChanges();

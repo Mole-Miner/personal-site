@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { RestApiService } from "../rest-api.service";
+import { AbstractApiService } from "../api.service";
 import { Company } from "../../types";
 
 @Injectable()
-export class CompaniesService extends RestApiService<Company> {
+export class CompaniesService extends AbstractApiService<Company> {
   constructor() {
     super('companies');
   }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -23,15 +23,21 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   templateUrl: './image-editor-dialog.component.html',
   styleUrls: [ './image-editor-dialog.component.scss' ]
 })
-export class ImageEditorDialogComponent extends AbstractEditorDialog<Base64UrlImage> implements OnInit {
+export class ImageEditorDialogComponent extends AbstractEditorDialog<Base64UrlImage> implements OnInit, OnDestroy {
   @ViewChild('fileChooser', { static: false })
   readonly fileChooser!: ElementRef<HTMLInputElement>;
 
   image!: File;
-  imagesSource!: string;
+  imageSource!: string;
 
   ngOnInit(): void {
     this.setupForm();
+  }
+
+  ngOnDestroy(): void {
+    if (this.imageSource) {
+      URL.revokeObjectURL(this.imageSource);
+    }
   }
 
   setupForm(): void {
@@ -53,19 +59,15 @@ export class ImageEditorDialogComponent extends AbstractEditorDialog<Base64UrlIm
 
   onSelectFile(event: Event): void {
     const image = (event.target as HTMLInputElement).files![0];
-    const fr = new FileReader();
-    fr.onload = () => {
-      this.form.patchValue({
-        name: image.name,
-        type: image.type,
-      });
-      this.image = image;
-      this.imagesSource = fr.result as string;
-    }
-    fr.readAsDataURL(image);
+    this.image = image;
+    this.imageSource = URL.createObjectURL(image);
+    this.form.patchValue({
+      name: image.name,
+      type: image.type,
+    });
   }
 
-  override close(): void {
+  override onSave(): void {
     super.close(this.image);
   }
 }

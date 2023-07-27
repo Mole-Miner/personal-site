@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 
-import { RestApiService } from "../rest-api.service";
+import { AbstractApiService } from "../api.service";
 import { Image, Base64UrlImage } from "../../types";
 
 @Injectable()
-export class ImagesService extends RestApiService<Image> {
+export class ImagesService extends AbstractApiService<Image> {
 
   constructor() {
     super('images');

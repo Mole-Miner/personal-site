@@ -5,11 +5,6 @@
 
   <ng-container *uiDialogBody>
     <div [formGroup]="form" class="experience">
-      <ng-container *ngIf="imageSource">
-        <img [src]="imageSource" alt="Background img" width="200">
-      </ng-container>
-      <input type="file" accept="image/png, image/jpeg" (change)="onSelectImage($event)">
-
       <mat-form-field *ngIf="isUpdate" class="experience__input" appearance="fill">
         <mat-label>Id</mat-label>
         <input matInput formControlName="id">

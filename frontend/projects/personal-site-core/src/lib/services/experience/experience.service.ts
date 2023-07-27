@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
 
-import { RestApiService } from "../rest-api.service";
-import { Experience } from "../../types";
+import { AbstractApiService } from "../api.service";
+import { Experience, ExperienceQuery } from "../../types";
 
 @Injectable()
-export class ExperienceService extends RestApiService<Experience> {
+export class ExperienceService extends AbstractApiService<Experience> {
 
   constructor() {
     super('experience');
   }
 
-  findExperienceList() {
-    return this.findMany();
+  findExperienceList(experienceQuery?: ExperienceQuery) {
+    const query: ExperienceQuery = {
+      accomplishments: false,
+      company: false,
+      image: false,
+      ...experienceQuery
+    };
+    return this.findMany({ fromObject: query });
   }
 
-  findExperience(experienceId: string) {
-    return this.findOne({ where: { id: experienceId } });
+  findExperience(experienceId: string, experienceQuery?: ExperienceQuery) {
+    const query: ExperienceQuery = {
+      accomplishments: false,
+      company: false,
+      image: false,
+      ...experienceQuery
+    };
+    return this.findOne({ where: { id: experienceId } }, { fromObject: query });
   }
 
   createExperience(experience: Experience) {
