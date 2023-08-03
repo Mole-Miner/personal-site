@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean } from 'class-validator';
-import { Transform, TransformFnParams } from "class-transformer";
+import { Transform, TransformFnParams } from 'class-transformer';
 
 function transformQueryField(params: TransformFnParams): boolean {
   return params.value === 'true';
@@ -20,5 +20,5 @@ export class ExperienceQuery {
   @ApiProperty()
   @IsBoolean()
   @Transform(transformQueryField)
-  images: boolean;
+  experiencePictures: boolean;
 }

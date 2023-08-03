@@ -1,41 +1,35 @@
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   IsArray,
   IsNotEmpty,
   IsString,
   Matches,
   MaxLength,
-  ValidateNested
+  ValidateNested,
 } from 'class-validator';
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
-export class CreateExperienceImage {
+export class CreateExperiencePicture {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  // @MaxLength(8)
+  @MaxLength(8)
   @Matches(/exterior|interior/)
   side: 'exterior' | 'interior';
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @MaxLength(64)
-  mobileImageId: string;
+  @MaxLength(6)
+  @Matches(/mobile|tablet|laptop/)
+  screen: 'mobile' | 'tablet' | 'laptop';
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @MaxLength(64)
-  tabletImageId: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  laptopImageId: string;
+  imageId: string;
 }
 
 export class CreateExperienceDto {
@@ -62,12 +56,13 @@ export class CreateExperienceDto {
   @IsNotEmpty()
   @MaxLength(64)
   companyId: string;
+}
 
+export class CreateExperienceWithPicturesDto extends CreateExperienceDto {
   @ApiProperty()
   @IsArray()
   @ValidateNested({ each: true })
-  @ArrayMinSize(2)
-  @ArrayMaxSize(2)
-  @Type(() => CreateExperienceImage)
-  images: CreateExperienceImage[];
+  @ArrayMaxSize(6)
+  @Type(() => CreateExperiencePicture)
+  pictures: CreateExperiencePicture[];
 }
