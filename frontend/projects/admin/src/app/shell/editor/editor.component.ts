@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from "rxjs";
 
 import { EntityTypes } from "personal-site-core";
 import { MatDialog, PersonalSiteMaterialModule } from "personal-site-material";

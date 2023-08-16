@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Subject, takeUntil } from "rxjs";
+import { forkJoin } from "rxjs";
 
-import { Company, Experience, CompaniesService } from "personal-site-core";
+import { Accomplishment, AccomplishmentsService, CompaniesService, Company, Experience } from "personal-site-core";
 import { PersonalSiteMaterialModule } from 'personal-site-material';
 import { DialogBodyTemplateDirective, DialogComponent, DialogHeaderTemplateDirective } from 'personal-site-ui';
 
@@ -25,20 +25,21 @@ import { AbstractEditorDialog } from "../../editor/abstract-editor-dialog";
   styleUrls: [ './experience-editor-dialog.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experience> implements OnInit, OnDestroy {
-  @Input()
+export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experience> implements OnInit {
   companies!: Company[];
+  accomplishments!: Accomplishment[];
 
-  constructor(private readonly companiesService: CompaniesService) {
+  constructor(
+    private readonly companiesService: CompaniesService,
+    private readonly accomplishmentsService: AccomplishmentsService,
+    private readonly cdr: ChangeDetectorRef
+  ) {
     super();
   }
 
   ngOnInit() {
-    this.findCompanies();
+    this.loadData();
     this.setupForm();
-  }
-
-  ngOnDestroy() {
   }
 
   setupForm(): void {
@@ -47,13 +48,25 @@ export class ExperienceEditorDialogComponent extends AbstractEditorDialog<Experi
     this.form.setControl('end', new FormControl(null, [ Validators.required ]));
     this.form.setControl('companyId', new FormControl(null, [ Validators.required ]));
     if (this.isUpdate) {
-      this.form.setControl('id', new FormControl(null, [ Validators.required ]));
+      this.form.setControl('id', new FormControl({ value: null, disabled: true }, [ Validators.required ]));
+      this.form.setValue({
+        id: this.entity?.id,
+        position: this.entity?.position,
+        start: this.entity?.start,
+        end: this.entity?.end,
+        companyId: this.entity?.companyId
+      });
     }
   }
 
-  private findCompanies(): void {
-    this.companiesService.findCompanies().subscribe((companies) => {
-      console.log(companies);
-    });
+  private loadData(): void {
+    forkJoin([
+      this.companiesService.findCompanies(),
+      this.accomplishmentsService.findAccomplishments()
+    ]).subscribe(([ companies, accomplishments ]) => {
+      this.companies = companies;
+      this.accomplishments = accomplishments;
+      this.cdr.detectChanges();
+    })
   }
 }

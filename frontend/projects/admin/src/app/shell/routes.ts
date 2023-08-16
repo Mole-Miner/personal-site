@@ -1,6 +1,6 @@
 import { Route } from "@angular/router";
 
-import { CompaniesService, ExperienceService, ImagesService } from "personal-site-core";
+import { AccomplishmentsService, CompaniesService, ExperienceService, ImagesService } from "personal-site-core";
 
 export const shellRoutes: Route[] = [
   {
@@ -29,9 +29,18 @@ export const shellRoutes: Route[] = [
         path: 'experience',
         providers: [
           ExperienceService,
-          CompaniesService
+          CompaniesService,
+          AccomplishmentsService
         ],
         loadComponent: () => import('./experience/experience.component').then(m => m.ExperienceComponent)
+      },
+      {
+        path: 'accomplishments',
+        providers: [
+          AccomplishmentsService,
+          ExperienceService
+        ],
+        loadComponent: () => import('./accomplishments/accomplishments.component').then(m => m.AccomplishmentsComponent)
       },
       {
         path: '',
