@@ -11,6 +11,6 @@ export class CreateAccomplishmentDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @MaxLength(32)
+  @MaxLength(64)
   experienceId: string;
 }

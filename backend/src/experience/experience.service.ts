@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { from, Observable } from 'rxjs';
+import { concatAll, from, map, Observable, toArray } from 'rxjs';
 import { Experience } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';

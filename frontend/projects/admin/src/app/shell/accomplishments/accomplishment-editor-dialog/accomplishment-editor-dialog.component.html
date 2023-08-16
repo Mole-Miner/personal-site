@@ -1,0 +1,31 @@
+<ui-dialog (close)="onClose()">
+  <ng-container *uiDialogHeader>
+    <h1>Accomplishment editor</h1>
+  </ng-container>
+
+  <ng-container *uiDialogBody>
+    <section [formGroup]="form" class="accomplishment">
+      <mat-form-field *ngIf="isUpdate" class="accomplishment__input" appearance="fill">
+        <mat-label>Accomplishment id</mat-label>
+        <input matInput formControlName="id">
+      </mat-form-field>
+
+      <mat-form-field class="accomplishment__input" appearance="fill">
+        <mat-label>Experience Id</mat-label>
+        <mat-select matInput formControlName="experienceId">
+          <mat-option *ngFor="let experience of experienceList" [value]="experience.id">
+            {{experience.id.slice(0, 8)}} {{experience.position}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="accomplishment__input"  appearance="fill">
+        <mat-label>Accomplishment content</mat-label>
+        <textarea matInput formControlName="content" rows="5" cols="50"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+      <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+    </section>
+  </ng-container>
+</ui-dialog>

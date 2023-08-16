@@ -1,6 +1,8 @@
 import {
   ArrayMaxSize,
   IsArray,
+  IsDateString,
+  IsISO8601,
   IsNotEmpty,
   IsString,
   Matches,
@@ -40,13 +42,13 @@ export class CreateExperienceDto {
   position: string;
 
   @ApiProperty()
-  @IsString()
+  @IsISO8601()
   @IsNotEmpty()
   @MaxLength(32)
   start: string;
 
   @ApiProperty()
-  @IsString()
+  @IsISO8601()
   @IsNotEmpty()
   @MaxLength(32)
   end: string;

@@ -20,5 +20,5 @@ export class ExperienceQuery {
   @ApiProperty()
   @IsBoolean()
   @Transform(transformQueryField)
-  experiencePictures: boolean;
+  pictures: boolean;
 }

@@ -60,7 +60,7 @@ export class ExperienceController {
   @Patch(':id')
   public updateExperience(
     @Param('id') id: string,
-    dto: UpdateExperienceDto,
+    @Body() dto: UpdateExperienceDto,
   ): Observable<Experience> {
     return this.experienceService.updateExperience(id, dto);
   }
