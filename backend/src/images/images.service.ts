@@ -19,7 +19,10 @@ export class ImagesService {
       concatAll(),
       concatMap((image) => {
         return from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => ({ ...image, content: `data:${image.type};base64,${base64Url}` })),
+          map((base64Url) => ({
+            ...image,
+            content: `data:${image.type};base64,${base64Url}`,
+          })),
         );
       }),
       toArray(),
@@ -30,7 +33,10 @@ export class ImagesService {
     return from(this.prisma.image.findUnique({ where: { id } })).pipe(
       concatMap((image) =>
         from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => ({ ...image, content: `data:${image.type};base64,${base64Url}` })),
+          map((base64Url) => ({
+            ...image,
+            content: `data:${image.type};base64,${base64Url}`,
+          })),
         ),
       ),
     );
