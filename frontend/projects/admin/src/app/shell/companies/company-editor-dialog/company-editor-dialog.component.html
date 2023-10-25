@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-container *uiDialogBody>
-    <div [formGroup]="form" class="company">
+    <section [formGroup]="form" class="company">
       <mat-form-field *ngIf="isUpdate" class="company__input" appearance="fill">
         <mat-label>Company id</mat-label>
         <input matInput formControlName="id">
@@ -22,6 +22,6 @@
 
       <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
       <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
-    </div>
+    </section>
   </ng-container>
 </ui-dialog>

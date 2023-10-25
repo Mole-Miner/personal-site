@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
@@ -8,21 +8,22 @@ import { AuthModule } from './auth/auth.module';
 import { CompaniesModule } from './companies/companies.module';
 import { ExperienceModule } from './experience/experience.module';
 import { ImagesModule } from './images/images.module';
+import { AccomplishmentsModule } from './accomplishments/accomplishments.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '../.env',
-      isGlobal: true
+      isGlobal: true,
     }),
     PrismaModule,
     UsersModule,
     AuthModule,
     CompaniesModule,
     ExperienceModule,
-    ImagesModule
+    ImagesModule,
+    AccomplishmentsModule,
   ],
-  controllers: [ AppController ]
+  controllers: [AppController],
 })
-export class AppModule {
-}
+export class AppModule {}

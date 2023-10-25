@@ -1,3 +1,3 @@
-export function bufferToBase64Url(buffer: Buffer): string {
-  return Buffer.from(buffer).toString('base64url');
+export function bufferToBase64Url(buffer: Buffer): Promise<string> {
+  return Promise.resolve(buffer.toString('base64'));
 }

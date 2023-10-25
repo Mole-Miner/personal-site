@@ -1,0 +1,8 @@
+<app-editor
+  [editorDialog]="imageEditorDialog"
+  [dataSource]="images"
+  [displayedColumns]="tableColumns"
+  [title]="'Images'"
+  (create)="onCreateImage($event)"
+  (delete)="onDeleteImage($event)"
+></app-editor>

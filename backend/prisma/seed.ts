@@ -38,9 +38,76 @@ async function main() {
         name: 'CyberBionic Systematics',
         preview: 'CyberBionic Systematics information technology training center was established in 2007 and for a long time specialized in training .NET and web developers. CyberBionic Systematics has developed its own comprehensive training system, which incorporates the best traditions and approaches in training of the Microsoft company, which we have been a partner of since 2012.'
       }
-    ]
+    ],
+    skipDuplicates: true
   });
   console.log('companies', companies);
+  const experiences = await prisma.$transaction(async () => {
+    const experiencesData = [
+      {
+        position: 'Front-end Teacher',
+        accomplishments: [
+          'Teach a group of students of the academy front-end development',
+          'Study the best practices of teaching and mentoring on the materials of academy',
+          'Learn and practice with basic and advanced topics of React'
+        ]
+      },
+      {
+        position: 'Fullstack Developer',
+        accomplishments: [
+          'Delimited the functionality of the application based on authentication',
+          'Developed a module of modal dialogs that was used in conjunction with authentication throughout application',
+          'Created Walmart shopping cart module on client side of app'
+        ]
+      },
+      {
+        position: 'Front-end Developer',
+        accomplishments: [
+          'Created a system user management module for administrators',
+          'Developed a module for delimiting user access rights to system objects for administrators',
+          'Implemented a module for reporting on work performed on system objects'
+        ]
+      },
+      {
+        position: 'Front-end Developer',
+        accomplishments: [
+          `Worked in team of front-end developers on integrating Jira and Github to user workspace`,
+          'Developed team workspace functionality for managing members, restrictions and integrations like Github',
+          `Implemented auth workflow inside team workspace`
+        ]
+      },
+      {
+        position: 'Front-end Developer',
+        accomplishments: [
+          'Collaborated with a team of front-end developers to migrate different features with Angular',
+          'Developed user personal account module with Angular that allows students manage data such as active curses, lectures material, passed tests etc',
+          'Worked on new features with Razor Pages'
+        ]
+      }
+    ]
+    const companies = await prisma.company.findMany();
+    for (let i = 0; i < companies.length; i++) {
+      const experience = await prisma.experience.create({
+        data: {
+          position: experiencesData[i].position,
+          start: new Date(Date.now()).toISOString(),
+          end: new Date(Date.now()).toISOString(),
+          companyId: companies[i].id
+        }
+      });
+      for (let j = 0; j < experiencesData[i].accomplishments.length; j++) {
+        await prisma.accomplishment.create({
+          data: {
+            content: experiencesData[i].accomplishments[j],
+            experienceId: experience.id
+          }
+        });
+      }
+    }
+    return { experiences: await prisma.experience.count(), accomplishments: await prisma.accomplishment.count() };
+  });
+
+  console.log('experiences ', experiences);
 }
 
 main()

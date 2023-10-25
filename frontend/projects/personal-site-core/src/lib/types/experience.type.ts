@@ -1,24 +1,24 @@
 import { EntityTypes } from "./entity.type";
-import { ImagesTypes } from "./images.type";
 
-export namespace ExperienceTypes {
-  export interface Experience extends EntityTypes.BaseEntity {
-    position: string;
-    start: string;
-    end: string
-    companyId: string;
-    image: ImagesTypes.Image;
-  }
+export interface Experience extends EntityTypes.BaseEntity {
+  position: string;
+  start: string;
+  end: string
+  companyId: string;
+}
 
-  export interface FindExperience extends EntityTypes.FindEntity {
-  }
+export interface ExperiencePicture extends EntityTypes.BaseEntity {
+  side: 'exterior' | 'interior',
+  screen: 'mobile' | 'laptop' | 'desktop',
+  imageId: string
+}
 
-  export interface CreateExperience extends EntityTypes.CreateEntity<Experience> {
-  }
+export interface ExperienceWithPictures extends Experience {
+  pictures: ExperiencePicture[];
+}
 
-  export interface UpdateExperience extends EntityTypes.UpdateEntity<Experience> {
-  }
-
-  export interface DeleteExperience extends FindExperience {
-  }
+export interface ExperienceQuery extends EntityTypes.QueryEntity {
+  company: boolean;
+  accomplishments: boolean;
+  pictures: boolean;
 }

@@ -1,8 +1,6 @@
 import { Route } from "@angular/router";
-import { provideState } from '@ngrx/store';
-import { provideEffects } from "@ngrx/effects";
 
-import { companiesFeature, CompaniesEffects, CompaniesService, ExperienceEffects, experienceFeature, ExperienceService  } from "personal-site-core";
+import { AccomplishmentsService, CompaniesService, ExperienceService, ImagesService } from "personal-site-core";
 
 export const shellRoutes: Route[] = [
   {
@@ -16,22 +14,33 @@ export const shellRoutes: Route[] = [
       {
         path: 'companies',
         providers: [
-          provideState(companiesFeature),
-          provideEffects(CompaniesEffects),
           CompaniesService
         ],
         loadComponent: () => import('./companies/companies.component').then(m => m.CompaniesComponent)
       },
       {
+        path: 'images',
+        providers: [
+          ImagesService
+        ],
+        loadComponent: () => import('./images/images.component').then(m => m.ImagesComponent)
+      },
+      {
         path: 'experience',
         providers: [
-          provideState(experienceFeature),
-          provideState(companiesFeature),
-          provideEffects(ExperienceEffects, CompaniesEffects),
           ExperienceService,
-          CompaniesService
+          CompaniesService,
+          AccomplishmentsService
         ],
         loadComponent: () => import('./experience/experience.component').then(m => m.ExperienceComponent)
+      },
+      {
+        path: 'accomplishments',
+        providers: [
+          AccomplishmentsService,
+          ExperienceService
+        ],
+        loadComponent: () => import('./accomplishments/accomplishments.component').then(m => m.AccomplishmentsComponent)
       },
       {
         path: '',
