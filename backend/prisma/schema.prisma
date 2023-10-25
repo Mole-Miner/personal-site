@@ -56,7 +56,7 @@ model Image {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  experience ImagesOnExperiences[]
+  experiencePictures ExperiencePictureOnImage[]
 
   @@map("image")
 }
@@ -83,36 +83,53 @@ model Accomplishment {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  experience   Experience @relation(fields: [experienceId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
   experienceId String     @map("experience_id") @db.Uuid
 
   @@map("accomplishment")
 }
 
 model Experience {
-  id       String @id @default(uuid()) @db.Uuid
+  id       String   @id @default(uuid()) @db.Uuid
   position String
-  start    String
-  end      String
+  start    DateTime
+  end      DateTime
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  company         Company               @relation(fields: [companyId], references: [id])
-  companyId       String                @map("company_id") @db.Uuid
-  accomplishments Accomplishment[]
-  images          ImagesOnExperiences[]
+  company            Company             @relation(fields: [companyId], references: [id])
+  companyId          String              @map("company_id") @db.Uuid
+  accomplishments    Accomplishment[]
+  experiencePictures ExperiencePicture[]
 
   @@map("experience")
 }
 
-model ImagesOnExperiences {
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId String     @map("experience_id") @db.Uuid
-  image        Image      @relation(fields: [imageId], references: [id])
-  imageId      String     @map("image_id") @db.Uuid
+model ExperiencePicture {
+  id     String @id @default(uuid()) @db.Uuid
+  side   String
+  screen String
 
-  @@id([experienceId, imageId])
-  @@map("image_experience_relation")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  experienceId String     @map("experience_id") @db.Uuid
+
+  image ExperiencePictureOnImage[]
+
+  @@map("experience_picture")
+}
+
+model ExperiencePictureOnImage {
+  experiencePicture   ExperiencePicture @relation(fields: [experiencePictureId], references: [id], onDelete: Cascade)
+  experiencePictureId String            @map("experience_picture_id") @db.Uuid
+  image               Image             @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId             String            @map("image_id") @db.Uuid
+
+  @@id(fields: [experiencePictureId, imageId], name: "experience_picture_image")
+  @@map("experience_picture_on_image")
 }

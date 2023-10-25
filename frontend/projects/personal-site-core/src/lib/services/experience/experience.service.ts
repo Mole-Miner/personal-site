@@ -1,32 +1,50 @@
 import { Injectable } from '@angular/core';
 
-import { RestApiService } from "../rest-api.service";
-import { ExperienceTypes } from "../../types";
+import { AbstractApiService } from "../api.service";
+import { Experience, ExperienceQuery } from "../../types";
 
 @Injectable()
-export class ExperienceService extends RestApiService<ExperienceTypes.Experience> {
+export class ExperienceService extends AbstractApiService<Experience> {
 
   constructor() {
     super('experience');
   }
 
-  findExperienceList() {
-    return this.findMany();
+  findExperienceList(experienceQuery?: ExperienceQuery) {
+    const query: ExperienceQuery = {
+      accomplishments: false,
+      company: false,
+      pictures: false,
+      ...experienceQuery
+    };
+    return this.findMany({ fromObject: query });
   }
 
-  findExperience(payload: ExperienceTypes.FindExperience) {
-    return this.findOne(payload);
+  findExperience(experienceId: string, experienceQuery?: ExperienceQuery) {
+    const query: ExperienceQuery = {
+      accomplishments: false,
+      company: false,
+      pictures: false,
+      ...experienceQuery
+    };
+    return this.findOne({ where: { id: experienceId } }, { fromObject: query });
   }
 
-  createExperience(payload: ExperienceTypes.CreateExperience) {
-    return this.create(payload);
+  createExperience(experience: Experience) {
+    return this.create({
+      data: {
+        ...experience,
+        start: new Date(experience.start).toISOString(),
+        end: new Date(experience.start).toISOString()
+      }
+    });
   }
 
-  updateExperience(payload: ExperienceTypes.UpdateExperience) {
-    return this.update(payload);
+  updateExperience(experience: Experience) {
+    return this.update({ where: { id: experience.id }, data: experience });
   }
 
-  deleteExperience(payload: ExperienceTypes.DeleteExperience) {
-    return this.delete(payload);
+  deleteExperience(experienceId: string) {
+    return this.delete({ where: { id: experienceId } });
   }
 }

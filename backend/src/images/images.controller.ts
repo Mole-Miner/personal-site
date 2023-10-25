@@ -4,6 +4,7 @@ import { FastifyRequest } from 'fastify';
 import { concatMap, from, Observable } from 'rxjs';
 
 import { Base64UrlImage, ImagesService } from './images.service';
+import { Image } from '@prisma/client';
 
 @ApiTags('Images')
 @Controller('images')
@@ -11,24 +12,24 @@ export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Get()
-  public downloadImages(): Observable<Base64UrlImage[]> {
-    return this.imagesService.downloadImages();
+  public findImages(): Observable<Base64UrlImage[]> {
+    return this.imagesService.findImagesImages();
   }
 
   @Get(':id')
-  public downloadImage(@Param('id') id: string): Observable<Base64UrlImage> {
-    return this.imagesService.downloadImage(id);
+  public findImageById(@Param('id') id: string): Observable<Base64UrlImage> {
+    return this.imagesService.findImageById(id);
   }
 
   @Post()
-  public uploadImage(@Req() req: FastifyRequest): Observable<string> {
+  public createImage(@Req() req: FastifyRequest): Observable<Image> {
     return from(req.file()).pipe(
-      concatMap((file) => this.imagesService.uploadImage(file)),
+      concatMap((file) => this.imagesService.createImage(file)),
     );
   }
 
   @Delete(':id')
-  public deleteImage(@Param('id') id: string): Observable<string> {
+  public deleteImage(@Param('id') id: string): Observable<Image> {
     return from(this.imagesService.deleteImage(id));
   }
 }

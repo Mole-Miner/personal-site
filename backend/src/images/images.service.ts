@@ -14,29 +14,35 @@ export interface Base64UrlImage extends Omit<Image, 'content'> {
 export class ImagesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public downloadImages(): Observable<Base64UrlImage[]> {
+  public findImagesImages(): Observable<Base64UrlImage[]> {
     return from(this.prisma.image.findMany()).pipe(
       concatAll(),
       concatMap((image) => {
         return from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => ({ ...image, content: base64Url })),
+          map((base64Url) => ({
+            ...image,
+            content: `data:${image.type};base64,${base64Url}`,
+          })),
         );
       }),
       toArray(),
     );
   }
 
-  public downloadImage(id: string): Observable<Base64UrlImage> {
+  public findImageById(id: string): Observable<Base64UrlImage> {
     return from(this.prisma.image.findUnique({ where: { id } })).pipe(
       concatMap((image) =>
         from(bufferToBase64Url(image.content)).pipe(
-          map((base64Url) => ({ ...image, content: base64Url })),
+          map((base64Url) => ({
+            ...image,
+            content: `data:${image.type};base64,${base64Url}`,
+          })),
         ),
       ),
     );
   }
 
-  public uploadImage(file: MultipartFile): Observable<string> {
+  public createImage(file: MultipartFile): Observable<Image> {
     return from(file.toBuffer()).pipe(
       concatMap((buffer) => {
         return from(
@@ -49,13 +55,10 @@ export class ImagesService {
           }),
         );
       }),
-      map((image) => image.id),
     );
   }
 
-  public deleteImage(id: string): Observable<string> {
-    return from(this.prisma.image.delete({ where: { id } })).pipe(
-      map((image) => image.id),
-    );
+  public deleteImage(id: string): Observable<Image> {
+    return from(this.prisma.image.delete({ where: { id } }));
   }
 }

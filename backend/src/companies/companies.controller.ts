@@ -31,7 +31,7 @@ export class CompaniesController {
   }
 
   @Post()
-  public createCompany(@Body() dto: CreateCompanyDto): Observable<string> {
+  public createCompany(@Body() dto: CreateCompanyDto): Observable<Company> {
     return this.companiesService.createCompany(dto);
   }
 
@@ -39,12 +39,12 @@ export class CompaniesController {
   public updateCompany(
     @Param('id') id: string,
     @Body() dto: UpdateCompanyDto,
-  ): Observable<string> {
+  ): Observable<Company> {
     return this.companiesService.updateCompany(id, dto);
   }
 
   @Delete(':id')
-  public deleteCompany(@Param('id') id: string): Observable<string> {
+  public deleteCompany(@Param('id') id: string): Observable<Company> {
     return this.companiesService.deleteCompany(id);
   }
 }

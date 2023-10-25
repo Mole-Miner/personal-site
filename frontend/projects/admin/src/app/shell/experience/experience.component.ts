@@ -1,11 +1,9 @@
 import { Component, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from "rxjs";
-import { Store } from "@ngrx/store";
 
-import { ExperienceTypes, ExperienceState, ExperiencePageActions, ExperienceSelectors  } from "personal-site-core";
+import { CompaniesService, Company, Experience, ExperienceService } from "personal-site-core";
 
-import { EditorComponent } from "../editor/editor.component";
+import { EditorComponent, EditorTableColumns } from "../editor/editor.component";
 import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/experience-editor-dialog.component";
 
 @Component({
@@ -16,32 +14,36 @@ import { ExperienceEditorDialogComponent } from "./experience-editor-dialog/expe
   styleUrls: [ './experience.component.scss' ]
 })
 export class ExperienceComponent implements OnInit {
-  readonly experienceList$: Observable<ExperienceTypes.Experience[]> = this.store.select(ExperienceSelectors.selectExperienceList);
-  readonly tableColumns = [ 'position', 'start', 'end' ];
+  experienceList!: Experience[];
 
+  readonly tableColumns: EditorTableColumns = {
+    columns: [ 'position', 'start', 'end' ],
+    isDateColumns: false
+  };
   readonly experienceEditorDialog: Type<ExperienceEditorDialogComponent> = ExperienceEditorDialogComponent;
 
-  constructor(private readonly store: Store<ExperienceState>) {
+  constructor(private readonly experienceService: ExperienceService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.findExperienceList();
   }
 
-  onCreateExperience(experience: ExperienceTypes.CreateExperience) {
-    console.log(experience);
-    // this.store.dispatch(ExperiencePageActions.createExperience({ payload: experience }));
+  onCreateExperience(experience: Experience) {
+    this.experienceService.createExperience(experience).subscribe(() => this.findExperienceList());
   }
 
-  onUpdateExperience(experience: ExperienceTypes.UpdateExperience) {
-    // this.store.dispatch(ExperiencePageActions.updateExperience({ payload: experience }));
+  onUpdateExperience(experience: Experience) {
+    this.experienceService.updateExperience(experience).subscribe(() => this.findExperienceList());
   }
 
-  onDeleteExperience(experience: ExperienceTypes.Experience) {
-    this.store.dispatch(ExperiencePageActions.deleteExperience({ payload: { where: { id: experience.id } } }));
+  onDeleteExperience(experience: Experience) {
+    this.experienceService.deleteExperience(experience.id).subscribe(() => this.findExperienceList());
   }
 
-  private findExperienceList() {
-    this.store.dispatch(ExperiencePageActions.loadExperienceList());
+  private findExperienceList(): void {
+    this.experienceService.findExperienceList().subscribe((experienceList) => {
+      this.experienceList = experienceList;
+    });
   }
 }

@@ -2,8 +2,6 @@ import { bootstrapApplication } from "@angular/platform-browser";
 import { importProvidersFrom } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { provideStore } from "@ngrx/store";
-import { provideEffects } from "@ngrx/effects";
 
 import { AuthService, PersonalSiteCoreModule } from 'personal-site-core';
 
@@ -13,8 +11,6 @@ import { appRoutes } from "./app/routes";
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(appRoutes),
-    provideStore(),
-    provideEffects(),
     importProvidersFrom(
       PersonalSiteCoreModule,
     ),

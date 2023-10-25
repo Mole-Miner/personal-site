@@ -1,0 +1,10 @@
+<app-editor
+  [editorDialog]="accomplishmentEditorDialog"
+  [dataSource]="accomplishments"
+  [displayedColumns]="tableColumns"
+  [title]="'Accomplishments'"
+  (create)="onCreateAccomplishment($event)"
+  (update)="onUpdateAccomplishment($event)"
+  (delete)="onDeleteAccomplishment($event)"
+></app-editor>
+

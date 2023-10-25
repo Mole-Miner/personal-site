@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from "rxjs";
 
 import { EntityTypes } from "personal-site-core";
 import { MatDialog, PersonalSiteMaterialModule } from "personal-site-material";
 
 import { AbstractEditorDialog, EditorDialogData } from "./abstract-editor-dialog";
+
+export interface EditorTableColumns {
+  columns: string[];
+  isDateColumns: boolean;
+}
 
 @Component({
   selector: 'app-editor',
@@ -20,13 +24,14 @@ export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.Base
   editorDialog!: Type<AbstractEditorDialog<T>>;
 
   @Input()
-  set dataSource(source$: Observable<T[]>) {
-    this.source$ = source$;
-  }
+  dataSource!: T[];
 
   @Input()
-  set displayedColumns(columns: string[]) {
-    this.columns = [ ...columns, 'createdAt', 'updatedAt', 'deletedAt' ];
+  set displayedColumns(options: EditorTableColumns) {
+    this.columns = [ ...options.columns ];
+    if (options.isDateColumns) {
+      this.columns = [ ...this.columns, 'createdAt', 'updatedAt', 'deletedAt' ];
+    }
     this.columnsWithMenu = [ ...this.columns, 'menu' ];
   }
 
@@ -42,7 +47,7 @@ export class EditorComponent<T extends EntityTypes.BaseEntity = EntityTypes.Base
   @Output()
   delete = new EventEmitter();
 
-  source$!: Observable<T[]>;
+
   columns!: string[];
   columnsWithMenu!: string[];
 

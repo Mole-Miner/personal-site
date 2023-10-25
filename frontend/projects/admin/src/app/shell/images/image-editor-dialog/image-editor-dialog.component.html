@@ -1,0 +1,35 @@
+<ui-dialog (close)="onClose()">
+  <ng-container *uiDialogHeader>
+    <h1>Image editor</h1>
+  </ng-container>
+
+  <ng-container *uiDialogBody class="image">
+    <img [src]="imageSource" alt="Image content" class="image__content">
+
+    <div>
+      <input type="file" #fileChooser (click)="fileChooser.value = ''" (change)="onSelectFile($event)"
+             accept="image/png, image/jpg, image/jpeg" style="display: none">
+      <button mat-raised-button color="primary" (click)="selectFile()">Select file</button>
+    </div>
+
+    <section [formGroup]="form">
+      <mat-form-field *ngIf="isUpdate" class="image__input" appearance="fill">
+        <mat-label>Image id</mat-label>
+        <input matInput formControlName="id">
+      </mat-form-field>
+
+      <mat-form-field class="image__input" appearance="fill">
+        <mat-label>Image name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="image__input" appearance="fill">
+        <mat-label>Image type</mat-label>
+        <input matInput formControlName="type">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+      <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+    </section>
+  </ng-container>
+</ui-dialog>
